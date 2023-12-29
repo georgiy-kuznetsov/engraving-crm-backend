@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('providers', function (Blueprint $table) {
@@ -29,15 +26,12 @@ return new class extends Migration
             $table->string('vkontakte')->nullable();
             $table->string('instagram')->nullable();
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->nullOnDelete();
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('providers', function (Blueprint $table) {
