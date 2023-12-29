@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->integer('stock_quantity')->default(0);
 
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('provider_id')->constrained();
+            $table->foreignId('user_id')->constrained()->nullOnDelete();
+            $table->foreignId('provider_id')->constrained()->nullOnDelete();
 
             $table->timestamps();
         });
