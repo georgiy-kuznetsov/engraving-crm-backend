@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('vkontakte')->nullable();
             $table->string('instagram')->nullable();
 
-            $table->foreignId('user_id')->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 
             $table->timestamps();
         });
