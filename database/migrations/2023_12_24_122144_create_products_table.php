@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->boolean('onsale')->default(false);
             
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->nullOnDelete();
 
             $table->timestamps();
         });
