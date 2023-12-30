@@ -31,7 +31,10 @@ return new class extends Migration
             $table->boolean('is_banned')->default(false);
             $table->boolean('is_regular')->default(false);
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained()
+                    ->nullOnDelete();
 
             $table->timestamps();
         });
