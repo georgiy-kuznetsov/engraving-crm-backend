@@ -11,8 +11,13 @@ return new class extends Migration
         Schema::create('spent_order_billets', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id')->constrained();
-            $table->foreignId('billet_id')->constrained();
+            $table->foreignId('order_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
+            $table->foreignId('billet_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
+                    
             $table->integer('quantity');
 
             $table->timestamps();

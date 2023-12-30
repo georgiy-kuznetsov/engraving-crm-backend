@@ -11,8 +11,12 @@ return new class extends Migration
         Schema::create('order_product_lists', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('order_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
+            $table->foreignId('product_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
 
             $table->double('price', 8, 2);
             $table->double('discount', 8, 2);
