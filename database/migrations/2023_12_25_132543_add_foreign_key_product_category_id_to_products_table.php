@@ -9,10 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->after('onsale');
-            $table->foreign('category_id')
+            $table->foreignId('category_id')
+                    ->after('onsale')
+                    ->nullable()
                     ->references('id')
-                    ->on('product_categories');
+                    ->on('product_categories')
+                    ->nullOnDelete();
         });
     }
 
