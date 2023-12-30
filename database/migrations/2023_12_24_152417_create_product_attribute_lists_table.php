@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('product_attribute_lists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_attribute_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_attribute_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
