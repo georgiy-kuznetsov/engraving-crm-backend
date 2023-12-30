@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name', 255);
-            $table->double('price', 8, 2)->default(0);
+            $table->decimal('price', 8, 2)->default(0)->unsigned();
             $table->text('description')->nullable();
             $table->string('sku', 255)->nullable()->unique();
             $table->string('photo')->nullable();

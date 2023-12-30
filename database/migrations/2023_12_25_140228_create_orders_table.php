@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('number')->unique();
-            $table->double('price_amount', 8, 2)->default(0);
-            $table->double('discount_amount', 8, 2)->default(0);
-            $table->double('shipping_amount', 8, 2)->default(0);
-            $table->double('gratuity_amount', 8, 2)->default(0);
-            $table->double('total_amount', 8, 2)->default(0);
+            $table->decimal('price_amount', 8, 2)->default(0)->unsigned();
+            $table->decimal('discount_amount', 8, 2)->default(0)->unsigned();
+            $table->decimal('shipping_amount', 8, 2)->default(0)->unsigned();
+            $table->decimal('gratuity_amount', 8, 2)->default(0)->unsigned();
+            $table->decimal('total_amount', 8, 2)->default(0)->unsigned();
 
             $table->foreignId('customer_id')
                     ->nullable()

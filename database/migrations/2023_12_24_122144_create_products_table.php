@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('title')->index();
             $table->text('short_description')->nullable();
             $table->text('description')->nullable();
-            $table->double('price', 8, 2)->default(0);
-            $table->double('sale_price', 8, 2)->nullable();
+            $table->decimal('price', 8, 2)->default(0)->unsigned();
+            $table->decimal('sale_price', 8, 2)->nullable()->unsigned();
             $table->string('sku', 255)->nullable()->unique();
             $table->string('photo')->nullable();
 

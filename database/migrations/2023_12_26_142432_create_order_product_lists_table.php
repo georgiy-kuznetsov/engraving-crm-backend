@@ -18,10 +18,10 @@ return new class extends Migration
                     ->constrained()
                     ->cascadeOnDelete();
 
-            $table->double('price', 8, 2);
-            $table->double('discount', 8, 2);
+            $table->decimal('price', 8, 2)->unsigned();
+            $table->decimal('discount', 8, 2)->unsigned();
             $table->integer('quantity');
-            $table->double('amount');
+            $table->decimal('amount')->unsigned();
 
             $table->timestamps();
         });
