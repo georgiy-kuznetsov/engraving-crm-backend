@@ -17,8 +17,14 @@ return new class extends Migration
             $table->double('gratuity_amount', 8, 2)->default(0);
             $table->double('total_amount', 8, 2)->default(0);
 
-            $table->foreignId('customer_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('customer_id')
+                    ->nullable()
+                    ->constrained()
+                    ->nullOnDelete();
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained()
+                    ->nullOnDelete();
 
             $table->timestamps();
         });

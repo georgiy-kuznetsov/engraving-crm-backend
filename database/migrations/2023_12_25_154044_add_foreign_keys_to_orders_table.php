@@ -10,21 +10,29 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->foreignId('status_id')
+                    ->nullable()
                     ->after('number')
                     ->references('id')
-                    ->on('order_statuses');
+                    ->on('order_statuses')
+                    ->nullOnDelete();
 
             $table->foreignId('coupon_id')
+                    ->nullable()
                     ->after('price_amount')
-                    ->constrained();
+                    ->constrained()
+                    ->nullOnDelete();
 
             $table->foreignId('shipping_method_id')
+                    ->nullable()
                     ->after('discount_amount')
-                    ->constrained();
+                    ->constrained()
+                    ->nullOnDelete();
 
             $table->foreignId('payment_method_id')
+                    ->nullable()
                     ->after('total_amount')
-                    ->constrained();
+                    ->constrained()
+                    ->nullOnDelete();
         });
     }
 

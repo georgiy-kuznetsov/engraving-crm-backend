@@ -15,7 +15,10 @@ return new class extends Migration
             $table->double('discount_size')->default(0);
             $table->enum('unit', ['percent', 'currency'])->default('currency');
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
 
             $table->timestamps();
         });
