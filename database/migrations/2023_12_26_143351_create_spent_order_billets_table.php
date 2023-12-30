@@ -18,7 +18,7 @@ return new class extends Migration
                     ->constrained()
                     ->cascadeOnDelete();
                     
-            $table->integer('quantity');
+            $table->integer('quantity')->unsigned();
 
             $table->timestamps();
         });

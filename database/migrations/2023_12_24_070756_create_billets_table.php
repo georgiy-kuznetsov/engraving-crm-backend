@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('sku', 255)->nullable()->unique();
             $table->string('photo')->nullable();
-            $table->integer('stock_quantity')->default(0);
+            $table->integer('stock_quantity')->default(0)->unsigned();
 
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('provider_id')->nullable()->constrained()->nullOnDelete();

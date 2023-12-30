@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->decimal('price', 8, 2)->unsigned();
             $table->decimal('discount', 8, 2)->unsigned();
-            $table->integer('quantity');
+            $table->integer('quantity')->unsigned();
             $table->decimal('amount')->unsigned();
 
             $table->timestamps();

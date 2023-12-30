@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('product_id')->cascadeOnDelete();
             $table->foreignId('billet_id')->cascadeOnDelete();
 
-            $table->integer('quantity')->default(0);
+            $table->integer('quantity')->default(0)->unsigned();
 
             $table->timestamps();
         });

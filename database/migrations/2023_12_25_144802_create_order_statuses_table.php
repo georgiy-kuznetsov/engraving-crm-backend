@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('index')->default(0);
+            $table->integer('index')->default(0)->unsigned();
             $table->timestamps();
         });
     }
