@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('product_billet_lists', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('product_id');
-            $table->foreignId('billet_id');
+            $table->foreignId('product_id')->cascadeOnDelete();
+            $table->foreignId('billet_id')->cascadeOnDelete();
 
             $table->integer('quantity')->default(0);
 
