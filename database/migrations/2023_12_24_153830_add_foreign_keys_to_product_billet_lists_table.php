@@ -9,8 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('product_billet_lists', function (Blueprint $table) {
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('billet_id')->references('id')->on('billets');
+            $table->foreign('product_id')
+                    ->references('id')
+                    ->on('products')
+                    ->cascadeOnDelete();
+
+            $table->foreign('billet_id')
+                    ->references('id')
+                    ->on('billets')
+                    ->cascadeOnDelete();
         });
     }
 
