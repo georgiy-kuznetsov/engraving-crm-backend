@@ -7,5 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Provider extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'phone',
+        'email',
+
+        'country',
+        'region',
+        'city',
+        'adress',
+        'postcode',
+
+        'strore_link',
+        'website',
+        'telegram',
+        'vkontakte',
+        'instagram',
+    ];
+
+    protected $guarded = [];
 }
