@@ -25,5 +25,9 @@ class Provider extends Model
         'instagram',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     protected $guarded = [];
 }
