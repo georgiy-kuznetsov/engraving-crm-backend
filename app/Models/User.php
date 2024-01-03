@@ -31,6 +31,7 @@ class User extends Authenticatable
         'avatar_large',
         'avatar_small',
         'is_owner',
+        'active'
     ];
 
     protected $casts = [
