@@ -30,6 +30,7 @@ class User extends Authenticatable
     protected $garded = [
         'avatar_large',
         'avatar_small',
+        'is_owner',
     ];
 
     protected $casts = [
