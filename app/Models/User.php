@@ -26,14 +26,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'is_owner',
-        'active'
+        'active',
     ];
 
     protected $garded = [
         'avatar_large',
         'avatar_small',
         'is_owner',
-        'active'
+        'active',
     ];
 
     protected $casts = [
