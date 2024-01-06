@@ -12,9 +12,22 @@ class UserController extends Controller
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
         $page = (int) $request->input('page') ?? 1;
 
-        return response()->json(
-            User::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page )
-        );
+        $usersData = User::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page );
+
+        return response()->json([
+            'success' => true,
+            'statusCode' => 200,
+            'messages' => [],
+            'data' => array(
+                'users' => $usersData->items(),
+                'currentPage' => $usersData->currentPage(),
+                'lastPage' => $usersData->lastPage(),
+                'pageSize' => $usersData->perPage(),
+                'total' => $usersData->total(),
+                'nextPageUrl' => $usersData->nextPageUrl(),
+                'previousPageUrl' => $usersData->previousPageUrl(),
+            ),
+        ]);
     }
 
     public function store(Request $request)
@@ -43,7 +56,12 @@ class UserController extends Controller
             'active' => false,
         ]);
 
-        return response()->json($user);
+        return response()->json([
+            'success' => true,
+            'statusCode' => 200,
+            'messages' => [],
+            'data' => $user,
+        ]);
     }
 
     public function show(User $user)
