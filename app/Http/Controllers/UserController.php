@@ -9,7 +9,12 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        //
+        $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
+        $page = (int) $request->input('page') ?? 1;
+
+        return response()->json(
+            User::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page )
+        );
     }
 
     public function store(Request $request)
