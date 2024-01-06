@@ -27,6 +27,7 @@ class User extends Authenticatable
         'remember_token',
         'is_owner',
         'active',
+        'email_verified_at',
     ];
 
     protected $garded = [
