@@ -48,7 +48,14 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        //
+        $data = User::find($user);
+
+        return response()->json([
+            'success' => true,
+            'statusCode' => 200,
+            'messages' => [],
+            'data' => $data,
+        ]);
     }
 
     public function update(Request $request, User $user)
