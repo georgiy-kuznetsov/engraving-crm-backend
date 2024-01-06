@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('avatar_large')->nullable();
             $table->string('avatar_small')->nullable();
 
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
             $table->boolean('is_owner')->default(false);
 
             $table->rememberToken();
