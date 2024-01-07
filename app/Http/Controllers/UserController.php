@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -76,9 +79,24 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, $userId)
     {
-        //
+        $user = User::findOrFail($userId);
+        
+        $validatedData = $request->validate([
+            'email' => ['required', 'string', 'email', 'unique:users,email,' . $userId],
+            'last_name' => ['nullable', 'string', 'max:100'],
+            'first_name' => ['nullable', 'string', 'max:100'],
+        ]);
+    
+        $user->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'statusCode' => 200,
+            'messages' => [],
+            'data' => $validatedData,
+        ]);
     }
 
     public function destroy(User $user)
