@@ -82,7 +82,7 @@ class UserController extends Controller
     public function update(Request $request, $userId)
     {
         $user = User::findOrFail($userId);
-        
+
         $validatedData = $request->validate([
             'email' => ['required', 'string', 'email', 'unique:users,email,' . $userId],
             'last_name' => ['nullable', 'string', 'max:100'],
@@ -101,6 +101,12 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        response()->json([
+            'success' => true,
+            'statusCode' => 200,
+            'messages' => [],
+        ], 200);
     }
 }
