@@ -1,18 +1,20 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')
     ->group( function () {
-        Route::post('/registration', [AuthController::class, 'registration'])
+        Route::post('/registration', [RegistrationController::class, 'registration'])
             ->name('registration');
 
-        Route::post('/login', [AuthController::class, 'login'])
+        Route::post('/login', [LoginController::class, 'login'])
             ->name('login');
 
-        Route::post('/logout', [AuthController::class, 'logout'])
+        Route::post('/logout', [LogoutController::class, 'logout'])
             ->name('logout')->middleware(['auth:sanctum']);
     });
 
