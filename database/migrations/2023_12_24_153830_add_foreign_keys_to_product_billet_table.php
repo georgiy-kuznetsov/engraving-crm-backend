@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('product_billet_lists', function (Blueprint $table) {
+        Schema::table('product_billet', function (Blueprint $table) {
             $table->foreign('product_id')
                     ->references('id')
                     ->on('products')
@@ -23,7 +23,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('product_billet_lists', function (Blueprint $table) {
+        Schema::table('product_billet', function (Blueprint $table) {
             $table->dropForeign(['product_id']);
             $table->dropForeign(['billet_id']);
         });
