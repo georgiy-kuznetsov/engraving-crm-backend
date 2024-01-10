@@ -25,8 +25,7 @@ Route::middleware('api')->group( function () {
 Route::apiResource('/users', UserController::class)->middleware(['api', 'auth:sanctum']);
 
 
-
-Route::apiResource('/products', ProductController::class);
+Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
 
 Route::prefix('products')->group( function () {
     Route::get('/{id}/billet', [ProductBilletController::class, 'index']);
@@ -35,7 +34,7 @@ Route::prefix('products')->group( function () {
 })->middleware(['api', 'auth:sanctum']);
 
 
-Route::apiResource('/billets', BilletController::class);
+Route::apiResource('/billets', BilletController::class)->middleware(['api', 'auth:sanctum']);
 
 Route::prefix('billets')->group( function () {
     Route::get('/{id}/product', [BilletProductController::class, 'index']);
