@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     public function login(Request $request) {
         $validatedData = $request->validate([
@@ -28,8 +28,8 @@ class LoginController extends Controller
             ]);
         };
 
-        return response()->json([
+        return $this->sendSuccessResponse([
             'token' => $user->createToken('api-token')->plainTextToken,
-        ]);
+        ], 200);
     }
 }
