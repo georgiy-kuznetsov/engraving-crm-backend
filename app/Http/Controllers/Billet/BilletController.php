@@ -87,6 +87,13 @@ class BilletController extends BaseController
 
     public function destroy(string $id)
     {
-        //
+        $billet = Billet::find($id);
+
+        if (!$billet) {
+            return $this->sendSuccessResponse([], 204);
+        };
+
+        $billet->delete();
+        return $this->sendSuccessResponse([], 204);
     }
 }
