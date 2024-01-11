@@ -8,7 +8,7 @@ class BaseController extends Controller
 {    
     public function sendSuccessResponse($data, $statusCode = 200, $messages = [])
     {
-        response()->json([
+        return response()->json([
             'success' => true,
             'statusCode' => $statusCode,
             'messages' => $messages,
@@ -18,7 +18,7 @@ class BaseController extends Controller
 
     public function sendErrorResponse($errors = [], $statusCode = 500) 
     {
-        response()->json([
+        return response()->json([
             'success' => false,
             'statusCode' => $statusCode,
             'errors' => $errors,
