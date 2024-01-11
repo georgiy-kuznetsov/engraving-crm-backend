@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Billet;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Models\Billet;
 use Illuminate\Http\Request;
 
-class BilletController extends Controller
+class BilletController extends BaseController
 {
     public function index(Request $request)
     {
@@ -24,7 +24,7 @@ class BilletController extends Controller
             'statusCode' => 200,
         ];
 
-        return response()->json($data, 200);
+        return $this->sendSuccessResponse($data, 200);
     }
 
     public function store(Request $request)
@@ -49,11 +49,7 @@ class BilletController extends Controller
             'photo' => null,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'statusCode' => 201,
-            'item' => $billet,
-        ], 201);
+        return $this->sendSuccessResponse($billet, 201);
     }
 
     public function show(string $id)
