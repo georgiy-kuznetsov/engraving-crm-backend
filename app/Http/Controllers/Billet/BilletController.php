@@ -54,7 +54,13 @@ class BilletController extends BaseController
 
     public function show(string $id)
     {
-        //
+        $billet = Billet::find($id);
+
+        if (!$billet) {
+            return $this->sendErrorResponse(['Billet not found'], 404);
+        };
+        
+        return $this->sendSuccessResponse($billet, 200);
     }
 
     public function update(Request $request, string $id)
