@@ -16,15 +16,15 @@ class Billet extends Model
         'price',
         'description',
         'sku',
-        'quantity_stock',
+        'stock_quantity',
     ];
 
     protected $hidden = [
-        'user_id',
         'provider_id',
     ];
 
     protected $guarded = [
+        'user_id',
         'photo_link',
     ];
 
