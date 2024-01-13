@@ -28,17 +28,17 @@ Route::apiResource('/users', UserController::class)->middleware(['api', 'auth:sa
 Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
 
 Route::prefix('products')->group( function () {
-    Route::get('/{id}/billet', [ProductBilletController::class, 'index']);
-    Route::post('/{id}/billet/{billet_id}', [ProductBilletController::class, 'store']);
-    Route::delete('/{id}/billet/{billet_id}', [ProductBilletController::class, 'destroy']);
+    Route::get('/{id}/billets', [ProductBilletController::class, 'index']);
+    Route::post('/{id}/billets/{billet_id}', [ProductBilletController::class, 'store']);
+    Route::delete('/{id}/billets/{billet_id}', [ProductBilletController::class, 'destroy']);
 })->middleware(['api', 'auth:sanctum']);
 
 
 Route::apiResource('/billets', BilletController::class)->middleware(['api', 'auth:sanctum']);
 
 Route::prefix('billets')->group( function () {
-    Route::get('/{id}/product', [BilletProductController::class, 'index']);
-    Route::post('/{id}/product/{product_id}', [BilletProductController::class, 'store']);
-    Route::delete('/{id}/product/{product_id}', [BilletProductController::class, 'destroy']);
+    Route::get('/{id}/products', [BilletProductController::class, 'index']);
+    Route::post('/{id}/products/{product_id}', [BilletProductController::class, 'store']);
+    Route::delete('/{id}/products/{product_id}', [BilletProductController::class, 'destroy']);
 })->middleware(['api', 'auth:sanctum']);
 
