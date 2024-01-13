@@ -28,7 +28,29 @@ class ProductController extends BaseController
 
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'decimal:2', 'max:99999999.99'],
+            'sale_price' => ['nullable', 'decimal:2', 'max:99999999.99'],
+            'short_description' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'sku' => ['nullable', 'string', 'max:255'],
+            'onsale' => ['required', 'boolean'],
+        ]);
+
+        $billet = Product::create([
+            'name' => $validatedData['name'],
+            'price' => $validatedData['price'],
+            'sale_price' => $validatedData['sale_price'],
+            'short_description' => $validatedData['short_description'],
+            'description' => $validatedData['description'],
+            'sku' => $validatedData['sku'],
+            'onsale' => $validatedData['onsale'],
+            'photo' => null,
+            'user_id' => $request->user()->id,
+        ]);
+
+        return $this->sendSuccessResponse($billet, 201);
     }
 
     public function show(string $id)
