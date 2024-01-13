@@ -66,7 +66,25 @@ class ProductController extends BaseController
 
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::find($id);
+
+        if (!$product) {
+            return $this->sendErrorResponse(['Billet not found'], 404);
+        };
+
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'decimal:2', 'max:99999999.99'],
+            'sale_price' => ['nullable', 'decimal:2', 'max:99999999.99'],
+            'short_description' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'sku' => ['nullable', 'string', 'max:255'],
+            'onsale' => ['required', 'boolean'],
+        ]);
+
+        $product->update($validatedData);
+
+        return $this->sendSuccessResponse($product, 200);
     }
 
     public function destroy(string $id)
