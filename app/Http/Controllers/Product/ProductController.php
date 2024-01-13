@@ -55,7 +55,13 @@ class ProductController extends BaseController
 
     public function show(string $id)
     {
-        //
+        $product = Product::find($id);
+
+        if (!$product) {
+            return $this->sendErrorResponse(['Product not found'], 404);
+        };
+        
+        return $this->sendSuccessResponse($product, 200);
     }
 
     public function update(Request $request, string $id)
