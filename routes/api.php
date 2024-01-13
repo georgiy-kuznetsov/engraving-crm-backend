@@ -35,10 +35,4 @@ Route::prefix('products')->group( function () {
 
 
 Route::apiResource('/billets', BilletController::class)->middleware(['api', 'auth:sanctum']);
-
-Route::prefix('billets')->group( function () {
-    Route::get('/{id}/products', [BilletProductController::class, 'index']);
-    Route::post('/{id}/products/{product_id}', [BilletProductController::class, 'store']);
-    Route::delete('/{id}/products/{product_id}', [BilletProductController::class, 'destroy']);
-})->middleware(['api', 'auth:sanctum']);
-
+Route::get('/billets/{id}/products', [BilletProductController::class, 'index'])->middleware(['api', 'auth:sanctum']);
