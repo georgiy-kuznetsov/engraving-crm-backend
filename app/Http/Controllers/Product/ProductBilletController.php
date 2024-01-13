@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\BaseController;
+use App\Models\Billet;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,20 @@ class ProductBilletController extends BaseController
         return $this->sendSuccessResponse($billets, 200);
     }
     
-    public function store(Request $request)
+    public function store(Request $request, $productId, $billetId)
     {
-        //
+        $product = Product::find($productId);
+        if (! $product) {
+            return $this->sendErrorResponse(['Product not found'], 404);
+        };
+
+        $billet = Billet::find($billetId);
+        if (! $billet) {
+            return $this->sendErrorResponse(['Billet not found'], 404);
+        };
+
+        $product->billets()->attach($billet);
+        return $this->sendSuccessResponse([], 200);
     }
 
     public function destroy(string $id)
