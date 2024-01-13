@@ -12,22 +12,20 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
         'short_description',
         'description',
         'price',
         'sale_price',
         'sku',
-        'photo',
         'onsale',
-    ];
-
-    protected $hidden = [
+        'photo',
         'user_id',
     ];
-
+    
     protected $guarded = [
         'user_id',
+        'photo',
     ];
 
     public function user(): BelongsTo
