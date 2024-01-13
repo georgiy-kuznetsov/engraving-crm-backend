@@ -91,13 +91,9 @@ class ProductController extends BaseController
     {
         $product = Product::find($id);
 
-        dump($product);
-
         if (!$product) {
             return $this->sendSuccessResponse([], 204);
         };
-
-        dump('here');
 
         $product->delete();
         return $this->sendSuccessResponse([], 204);
