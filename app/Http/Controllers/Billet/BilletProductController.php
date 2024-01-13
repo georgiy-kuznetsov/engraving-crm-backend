@@ -20,14 +20,4 @@ class BilletProductController extends BaseController
 
         return $this->sendSuccessResponse($products, 200);
     }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
-    }
 }
