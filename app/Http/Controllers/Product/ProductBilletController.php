@@ -38,8 +38,19 @@ class ProductBilletController extends BaseController
         return $this->sendSuccessResponse([], 200);
     }
 
-    public function destroy(string $id)
+    public function destroy(Request $request, $productId, $billetId)
     {
-        //
+        $product = Product::find($productId);
+        if (! $product) {
+            return $this->sendErrorResponse(['Product not found'], 404);
+        };
+
+        $billet = Billet::find($billetId);
+        if (! $billet) {
+            return $this->sendErrorResponse(['Billet not found'], 404);
+        };
+
+        $product->billets()->detach($billet);
+        return $this->sendSuccessResponse([], 200);
     }
 }
