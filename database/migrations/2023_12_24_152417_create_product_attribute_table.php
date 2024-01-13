@@ -8,12 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('product_attribute_lists', function (Blueprint $table) {
+        Schema::create('product_attribute', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('attribute_id')
                     ->references('id')
-                    ->on('product_attributes')
+                    ->on('attributes')
                     ->cascadeOnDelete();
 
             $table->foreignId('product_id')
@@ -26,6 +26,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('product_attribute_lists');
+        Schema::dropIfExists('product_attribute');
     }
 };
