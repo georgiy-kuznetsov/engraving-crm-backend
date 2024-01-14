@@ -24,17 +24,23 @@ class ProductBilletController extends BaseController
     
     public function store(Request $request, $productId, $billetId)
     {
-        $product = Product::find($productId);
-        if (! $product) {
+        if ( ! $product = Product::find($productId) ) {
             return $this->sendErrorResponse(['Product not found'], 404);
         };
 
-        $billet = Billet::find($billetId);
-        if (! $billet) {
+        if ( ! $billet = Billet::find($billetId) ) {
             return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
-        $product->billets()->attach($billet);
+        if ( $product->billets->contains($billetId) ) {
+            return $this->sendErrorResponse(['Billet already exists'], 409);
+        };
+
+        $validatedData = $request->validate([
+            'quantity' => ['required', 'integer', 'max:255'],
+        ]);
+
+        $product->billets()->attach($billet, ['quantity' => $validatedData['quantity']]);
         return $this->sendSuccessResponse([], 200);
     }
 
