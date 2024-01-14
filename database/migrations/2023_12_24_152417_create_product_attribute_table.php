@@ -20,6 +20,8 @@ return new class extends Migration
                     ->constrained()
                     ->cascadeOnDelete();
 
+            $table->float('value')->unsigned();
+
             $table->timestamps();
         });
     }
