@@ -14,11 +14,11 @@ return new class extends Migration
             $table->foreignId('attribute_id')
                     ->references('id')
                     ->on('attributes')
-                    ->cascadeOnDelete();
+                    ->onDelete('cascade');
 
             $table->foreignId('product_id')
-                    ->constrained()
-                    ->cascadeOnDelete();
+                    ->onDelete('cascade')
+                    ->constrained();
 
             $table->float('value')->unsigned();
 
