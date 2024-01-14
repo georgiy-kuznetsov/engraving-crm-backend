@@ -24,6 +24,11 @@ Route::middleware('api')->group( function () {
 
 Route::apiResource('/users', UserController::class)->middleware(['api', 'auth:sanctum']);
 
+Route::prefix('users')->group( function () {
+    Route::get('/{id}/providers', [UserController::class, 'getProviders']);
+    Route::get('/{id}/products', [UserController::class, 'getProducts']);
+    Route::get('/{id}/billets', [UserController::class, 'getBillets']);
+});
 
 Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
 

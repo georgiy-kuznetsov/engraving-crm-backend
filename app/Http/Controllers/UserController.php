@@ -86,4 +86,26 @@ class UserController extends BaseController
 
         return $this->sendSuccessResponse([], 204);
     }
+
+    public function getProviders($userId) {
+        if (! $user = User::find($userId)) {
+            return $this->sendErrorResponse(['User not found'], 404);
+        };
+        return $this->sendSuccessResponse( $user->provider()->get(), 200 );
+    }
+
+    public function getProducts($userId) {
+        if (! $user = User::find($userId)) {
+            return $this->sendErrorResponse(['User not found'], 404);
+        };
+        return $this->sendSuccessResponse( $user->product()->get(), 200 );
+    }
+
+    public function getBillets($userId) {
+        if (! $user = User::find($userId)) {
+            return $this->sendErrorResponse(['User not found'], 404);
+        };
+    
+        return $this->sendSuccessResponse( $user->billet()->get(), 200 );
+    }
 }
