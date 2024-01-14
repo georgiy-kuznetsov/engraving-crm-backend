@@ -33,6 +33,13 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function attributes(): BelongsToMany
+    {
+        return $this->belongsToMany(Attribute::class, 'product_attribute')
+                    ->withPivot('value')
+                    ->withTimestamps();
+    }
+
     public function billets(): BelongsToMany
     {
         return $this->belongsToMany(Billet::class, 'product_billet')

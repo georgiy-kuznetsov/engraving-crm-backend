@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Attribute extends Model
 {
@@ -14,9 +15,10 @@ class Attribute extends Model
         'unit',
     ];
 
-    // public function product() {
-    //     return $this->belongsToMany(Product::class)
-    //                 ->withPivot('value')
-    //                 ->withTimestamps();
-    // }
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_attribute')
+                    ->withPivot('value')
+                    ->withTimestamps();
+    }
 }
