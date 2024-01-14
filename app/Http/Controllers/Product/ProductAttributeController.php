@@ -34,7 +34,7 @@ class ProductAttributeController extends BaseController
         };
 
         $validatedData = $request->validate([
-            'value' => ['required', 'integer', 'max:255'],
+            'value' => ['required', 'numeric', 'max:255'],
         ]);
 
         $product->attributes()->attach($attribute, ['value' => $validatedData['value']]);
