@@ -34,6 +34,11 @@ class Billet extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function provider(): BelongsTo
+    {
+        return $this->belongsTo(Provider::class);
+    }
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_billet')

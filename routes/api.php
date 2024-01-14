@@ -7,6 +7,7 @@ use App\Http\Controllers\Billet\BilletController;
 use App\Http\Controllers\Billet\BilletProductController;
 use App\Http\Controllers\Product\ProductBilletController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,15 +24,18 @@ Route::middleware('api')->group( function () {
 
 
 Route::apiResource('/users', UserController::class)->middleware(['api', 'auth:sanctum']);
-
 Route::prefix('users')->group( function () {
     Route::get('/{id}/providers', [UserController::class, 'getProviders']);
     Route::get('/{id}/products', [UserController::class, 'getProducts']);
     Route::get('/{id}/billets', [UserController::class, 'getBillets']);
 });
 
-Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
 
+Route::apiResource('/providers', ProviderController::class)->middleware(['api', 'auth:sanctum']);
+Route::get('/providers/{id}/billets', [ProviderController::class, 'getBillets'])->middleware(['api', 'auth:sanctum']);
+
+
+Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
 Route::prefix('products')->group( function () {
     Route::get('/{id}/billets', [ProductBilletController::class, 'index']);
     Route::post('/{id}/billets/{billet_id}', [ProductBilletController::class, 'store']);
