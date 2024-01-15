@@ -14,7 +14,7 @@ class ProductController extends BaseController
         $page = (int) $request->input('page') ?? 1;
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
 
-        $productItems = Product::paginate($pageSize, ['*'], 'page', $page);
+        $productItems = Product::with('category')->paginate($pageSize, ['*'], 'page', $page);
 
         $data = [
             'page' => $productItems->currentPage(),
@@ -35,17 +35,12 @@ class ProductController extends BaseController
             'short_description' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'sku' => ['nullable', 'string', 'max:255'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'onsale' => ['required', 'boolean'],
         ]);
 
         $billet = Product::create([
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'sale_price' => $validatedData['sale_price'],
-            'short_description' => $validatedData['short_description'],
-            'description' => $validatedData['description'],
-            'sku' => $validatedData['sku'],
-            'onsale' => $validatedData['onsale'],
+            ...$validatedData,
             'photo' => null,
             'user_id' => $request->user()->id,
         ]);
@@ -55,11 +50,7 @@ class ProductController extends BaseController
 
     public function show(string $id)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return $this->sendErrorResponse(['Product not found'], 404);
-        };
+        $product = Product::with('category')->find($id);
         
         return $this->sendSuccessResponse($product, 200);
     }
@@ -79,6 +70,7 @@ class ProductController extends BaseController
             'short_description' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'sku' => ['nullable', 'string', 'max:255'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'onsale' => ['required', 'boolean'],
         ]);
 

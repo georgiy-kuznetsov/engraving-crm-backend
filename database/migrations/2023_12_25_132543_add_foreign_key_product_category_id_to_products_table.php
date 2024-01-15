@@ -12,9 +12,8 @@ return new class extends Migration
             $table->foreignId('category_id')
                     ->after('onsale')
                     ->nullable()
-                    ->references('id')
-                    ->on('product_categories')
-                    ->nullOnDelete();
+                    ->constrained()
+                    ->onDelete('set null');
         });
     }
 

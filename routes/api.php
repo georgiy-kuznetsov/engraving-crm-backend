@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Billet\BilletController;
 use App\Http\Controllers\Billet\BilletProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Product\ProductAttributeController;
 use App\Http\Controllers\Product\ProductBilletController;
 use App\Http\Controllers\Product\ProductController;
@@ -46,3 +47,6 @@ Route::apiResource('/billets', BilletController::class)->middleware(['api', 'aut
 Route::get('/billets/{id}/products', [BilletProductController::class, 'index'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/attributes', AttributeController::class)->middleware(['api', 'auth:sanctum']);
+
+Route::apiResource('/categories', CategoryController::class)->middleware(['api', 'auth:sanctum']);
+Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts'])->middleware(['api', 'auth:sanctum']);
