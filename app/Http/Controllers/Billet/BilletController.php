@@ -15,16 +15,12 @@ class BilletController extends BaseController
 
         $billetItems = Billet::paginate($pageSize, ['*'], 'page', $page);
 
-        $data = [
+        return $this->sendSuccessResponse([
             'page' => $billetItems->currentPage(),
             'pageSize' => $billetItems->perPage(),
             'total' => $billetItems->total(),
             'items' => $billetItems->items(),
-            'success' => true,
-            'statusCode' => 200,
-        ];
-
-        return $this->sendSuccessResponse($data, 200);
+        ], 200);
     }
 
     public function store(Request $request)
@@ -39,12 +35,7 @@ class BilletController extends BaseController
         ]);
 
         $billet = Billet::create([
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'description' => $validatedData['description'],
-            'sku' => $validatedData['sku'],
-            'stock_quantity' => $validatedData['stock_quantity'],
-            'provider_id' => $validatedData['provider_id'],
+            ...$validatedData,
             'user_id' => $request->user()->id,
             'photo' => null,
         ]);
@@ -54,9 +45,7 @@ class BilletController extends BaseController
 
     public function show(string $id)
     {
-        $billet = Billet::find($id);
-
-        if (!$billet) {
+        if ( ! $billet = Billet::find($id) ) {
             return $this->sendErrorResponse(['Billet not found'], 404);
         };
         
@@ -65,9 +54,7 @@ class BilletController extends BaseController
 
     public function update(Request $request, string $id)
     {
-        $billet = Billet::find($id);
-
-        if (!$billet) {
+        if ( ! $billet = Billet::find($id) ) {
             return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
@@ -87,9 +74,7 @@ class BilletController extends BaseController
 
     public function destroy(string $id)
     {
-        $billet = Billet::find($id);
-
-        if (!$billet) {
+        if ( ! $billet = Billet::find($id) ) {
             return $this->sendSuccessResponse([], 204);
         };
 
