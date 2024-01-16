@@ -93,8 +93,13 @@ class CustomerController extends BaseController
         return $this->sendSuccessResponse($customer, 200);
     }
 
-    public function destroy(string $id)
+    public function destroy(string $customerId)
     {
-        //
+        if ( ! $customer = Customer::find($customerId) ) {
+            return $this->sendSuccessResponse([], 204);
+        };
+
+        $customer->delete();
+        return $this->sendSuccessResponse([], 204);
     }
 }
