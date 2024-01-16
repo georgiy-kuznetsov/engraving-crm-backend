@@ -55,7 +55,10 @@ class CustomerController extends BaseController
 
     public function show(string $id)
     {
-        //
+        if (! $customer = Customer::find($id)) {
+            return $this->sendErrorResponse(['Customer not found'], 404);
+        };
+        return $this->sendSuccessResponse($customer, 200);
     }
 
     public function update(Request $request, string $id)
