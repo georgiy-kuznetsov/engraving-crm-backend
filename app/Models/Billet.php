@@ -17,6 +17,7 @@ class Billet extends Model
         'description',
         'sku',
         'stock_quantity',
+        'user_id',
     ];
 
     protected $hidden = [
