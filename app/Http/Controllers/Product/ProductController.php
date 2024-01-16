@@ -35,7 +35,7 @@ class ProductController extends BaseController
             'short_description' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'sku' => ['nullable', 'string', 'max:255'],
-            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'onsale' => ['required', 'boolean'],
         ]);
 
@@ -70,7 +70,7 @@ class ProductController extends BaseController
             'short_description' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'sku' => ['nullable', 'string', 'max:255'],
-            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'onsale' => ['required', 'boolean'],
         ]);
 
