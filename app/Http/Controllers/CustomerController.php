@@ -36,11 +36,11 @@ class CustomerController extends BaseController
             'adress' => ['nullable', 'string', 'max:255'],
             'postcode' => ['nullable', 'string', 'max:20'],
 
-            'website' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'telegram' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'vkontakte' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'instagram' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'whatsapp' => ['nullable', 'string', 'unique:providers', 'max:256'],
+            'website' => ['nullable', 'string', 'unique:customers', 'max:256'],
+            'telegram' => ['nullable', 'string', 'unique:customers', 'max:256'],
+            'vkontakte' => ['nullable', 'string', 'unique:customers', 'max:256'],
+            'instagram' => ['nullable', 'string', 'unique:customers', 'max:256'],
+            'whatsapp' => ['nullable', 'string', 'unique:customers', 'max:256'],
         ]);
 
         $customer = Customer::create([
@@ -63,7 +63,34 @@ class CustomerController extends BaseController
 
     public function update(Request $request, string $id)
     {
-        //
+        $customer = Customer::find($id);
+
+        if (!$customer) {
+            return $this->sendErrorResponse(['Customer not found'], 404);
+        };
+
+        $validatedData = $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'unique:providers,email,' . $customer->id, 'max:100'],
+
+            'country' => ['nullable', 'string', 'max:255'],
+            'region' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'adress' => ['nullable', 'string', 'max:255'],
+            'postcode' => ['nullable', 'string', 'max:20'],
+
+            'store_link' => ['nullable', 'string'],
+            'website' => ['nullable', 'string', 'unique:customers,website,' . $customer->id, 'max:255'],
+            'telegram' => ['nullable', 'string', 'unique:customers,telegram,' . $customer->id, 'max:255'],
+            'vkontakte' => ['nullable', 'string', 'unique:customers,vkontakte,' . $customer->id, 'max:255'],
+            'instagram' => ['nullable', 'string', 'unique:customers,instagram,' . $customer->id, 'max:255'],
+        ]);
+
+        $customer->update($validatedData);
+
+        return $this->sendSuccessResponse($customer, 200);
     }
 
     public function destroy(string $id)
