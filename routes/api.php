@@ -8,6 +8,7 @@ use App\Http\Controllers\Billet\BilletController;
 use App\Http\Controllers\Billet\BilletProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product\ProductAttributeController;
 use App\Http\Controllers\Product\ProductBilletController;
 use App\Http\Controllers\Product\ProductController;
@@ -54,3 +55,5 @@ Route::apiResource('/categories', CategoryController::class)->middleware(['api',
 Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/customers', CustomerController::class)->middleware(['api', 'auth:sanctum']);
+
+Route::apiResourse('/orsers', OrderController::class)->middleware(['api', 'auth:sanctum']);
