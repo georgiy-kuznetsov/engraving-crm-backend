@@ -28,7 +28,7 @@ class CustomerController extends BaseController
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'unique:customers', 'max:100'],
-            'phone' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255', 'unique:customers', 'max:100'],
             
             'country' => ['nullable', 'string', 'max:255'],
             'region' => ['nullable', 'string', 'max:255'],
@@ -72,8 +72,8 @@ class CustomerController extends BaseController
         $validatedData = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:providers,email,' . $customer->id, 'max:100'],
+            'phone' => ['nullable', 'string', 'max:255', 'unique:customers,phone,' . $customer->id, 'max:100'],
+            'email' => ['required', 'string', 'email', 'unique:customers,email,' . $customer->id, 'max:100'],
 
             'country' => ['nullable', 'string', 'max:255'],
             'region' => ['nullable', 'string', 'max:255'],
