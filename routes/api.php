@@ -56,4 +56,4 @@ Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts
 
 Route::apiResource('/customers', CustomerController::class)->middleware(['api', 'auth:sanctum']);
 
-Route::apiResourse('/orsers', OrderController::class)->middleware(['api', 'auth:sanctum']);
+Route::apiResource('/orders', OrderController::class)->middleware(['api', 'auth:sanctum']);
