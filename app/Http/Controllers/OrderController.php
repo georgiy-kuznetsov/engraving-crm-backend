@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OrderController extends BaseController
@@ -24,7 +25,30 @@ class OrderController extends BaseController
 
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'number' => ['nullable', 'string', 'max:255', 'unique:orders'],
+            'price_amount' => ['required', 'decimal:2', 'max:99999999.99'],
+            'discount_amount' => ['required', 'decimal:2', 'max:99999999.99'],
+            'shipping_amount' => ['required', 'decimal:2', 'max:99999999.99'],
+            'gratuity_amount' => ['required', 'decimal:2', 'max:99999999.99'],
+
+            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
+        ]);
+
+        $discountPrice = $validatedData['price_amount'] - $validatedData['discount_amount'];
+        $totalAmount = $discountPrice + $validatedData['shipping_amount'] + $validatedData['gratuity_amount'];
+        
+        $order = Order::create([
+            ...$validatedData,
+            $totalAmount,
+        ]);
+
+        if ( ! $order->number) {
+            $order->number = $order->getNumber();
+            $order->save();
+        }
+
+        return $this->sendSuccessResponse($order, 201);
     }
 
     public function show(string $id)

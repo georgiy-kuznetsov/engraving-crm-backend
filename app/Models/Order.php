@@ -29,6 +29,7 @@ class Order extends Model
     ];
 
     protected $guarded = [
+        'total_amount',
         'status_id',
         'coupon_id',
         'shipping_method_id',
@@ -36,4 +37,10 @@ class Order extends Model
         'user_id',
         'customer_id',
     ];
+
+    public function getNumber() {
+        $prefix = now()->parse()->year . '-';
+        $number = str_pad( $this->id, 5, 0, STR_PAD_LEFT);
+        return  $prefix . $number;
+    }
 }

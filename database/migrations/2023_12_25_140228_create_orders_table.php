@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
+            $table->string('number')->nullable()->unique();
             $table->decimal('price_amount', 8, 2)->default(0)->unsigned();
             $table->decimal('discount_amount', 8, 2)->default(0)->unsigned();
             $table->decimal('shipping_amount', 8, 2)->default(0)->unsigned();
