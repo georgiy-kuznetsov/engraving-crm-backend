@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('promocode')->unique();
             $table->timestamp('term')->index();
             $table->decimal('discount_size')->default(0)->unsigned();
-            $table->enum('unit', ['percent', 'currency'])->default('currency');
+            $table->enum('unit', ['percent', 'fixed'])->default('fixed');
 
             $table->foreignId('user_id')
                 ->nullable()
