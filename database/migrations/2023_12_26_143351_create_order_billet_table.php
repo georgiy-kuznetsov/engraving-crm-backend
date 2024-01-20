@@ -8,8 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('spent_order_billets', function (Blueprint $table) {
+        Schema::create('order_billet', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->double('price', 8, 2)->unsigned();
+            $table->string('photo')->nullable();
+            $table->integer('quantity')->unsigned();
 
             $table->foreignId('order_id')
                     ->constrained()
@@ -18,14 +23,12 @@ return new class extends Migration
                     ->constrained()
                     ->cascadeOnDelete();
                     
-            $table->integer('quantity')->unsigned();
-
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('spent_order_billets');
+        Schema::dropIfExists('order_billet');
     }
 };
