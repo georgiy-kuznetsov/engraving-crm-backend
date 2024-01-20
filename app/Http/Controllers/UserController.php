@@ -116,4 +116,12 @@ class UserController extends BaseController
     
         return $this->sendSuccessResponse( $user->customers()->get(), 200 );
     }
+
+    public function getOrders($userId) {
+        if (! $user = User::find($userId)) {
+            return $this->sendErrorResponse(['User not found'], 404);
+        };
+    
+        return $this->sendSuccessResponse( $user->orders()->get(), 200 );
+    }
 }

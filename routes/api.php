@@ -32,6 +32,7 @@ Route::prefix('users')->group( function () {
     Route::get('/{id}/products', [UserController::class, 'getProducts']);
     Route::get('/{id}/billets', [UserController::class, 'getBillets']);
     Route::get('/{id}/customers', [UserController::class, 'getCustomers']);
+    Route::get('/{id}/orders', [UserController::class, 'getOrders']);
 });
 
 Route::apiResource('/providers', ProviderController::class)->middleware(['api', 'auth:sanctum']);
