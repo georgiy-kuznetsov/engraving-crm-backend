@@ -61,7 +61,30 @@ class OrderController extends BaseController
 
     public function update(Request $request, string $id)
     {
-        //
+        $order = Order::find($id);
+
+        if (!$order) {
+            return $this->sendErrorResponse(['Order not found'], 404);
+        };
+
+        $validatedData = $request->validate([
+            'price_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
+            'discount_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
+            'shipping_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
+            'gratuity_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
+
+            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
+        ]);
+
+        $discountPrice = $validatedData['price_amount'] - $validatedData['discount_amount'];
+        $totalAmount = $discountPrice + $validatedData['shipping_amount'] + $validatedData['gratuity_amount'];
+        
+        $order->update([
+            ...$validatedData,
+            'total_amount' => $totalAmount,
+        ]);
+        
+        return $this->sendSuccessResponse($order, 200);
     }
 
     public function destroy(string $id)
