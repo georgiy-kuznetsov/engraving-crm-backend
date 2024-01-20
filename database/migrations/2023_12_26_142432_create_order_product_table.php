@@ -8,8 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('order_product_lists', function (Blueprint $table) {
+        Schema::create('order_product', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->string('photo');
+            $table->decimal('price', 8, 2)->unsigned();
+            $table->decimal('discount', 8, 2)->unsigned();
+            $table->integer('quantity')->unsigned();
+            $table->decimal('amount')->unsigned();
 
             $table->foreignId('order_id')
                     ->constrained()
@@ -18,17 +25,12 @@ return new class extends Migration
                     ->constrained()
                     ->cascadeOnDelete();
 
-            $table->decimal('price', 8, 2)->unsigned();
-            $table->decimal('discount', 8, 2)->unsigned();
-            $table->integer('quantity')->unsigned();
-            $table->decimal('amount')->unsigned();
-
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('order_product_lists');
+        Schema::dropIfExists('order_product');
     }
 };
