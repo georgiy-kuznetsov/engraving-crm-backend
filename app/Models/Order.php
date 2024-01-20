@@ -17,6 +17,7 @@ class Order extends Model
         'shipping_amount',
         'gratuity_amount',
         'total_amount',
+        'customer_id',
     ];
 
     protected $hidden = [
@@ -35,12 +36,16 @@ class Order extends Model
         'shipping_method_id',
         'payment_method_id',
         'user_id',
-        'customer_id',
     ];
 
     public function getNumber() {
         $prefix = now()->parse()->year . '-';
         $number = str_pad( $this->id, 5, 0, STR_PAD_LEFT);
         return  $prefix . $number;
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

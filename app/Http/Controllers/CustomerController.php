@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class CustomerController extends BaseController
@@ -101,5 +102,13 @@ class CustomerController extends BaseController
 
         $customer->delete();
         return $this->sendSuccessResponse([], 204);
+    }
+
+    public function getOrders(int $id) {
+        if (! $customer = Customer::find($id)) {
+            return $this->sendErrorResponse(['Customer not found'], 404);
+        };
+    
+        return $this->sendSuccessResponse( $customer->orders()->get(), 200 );
     }
 }
