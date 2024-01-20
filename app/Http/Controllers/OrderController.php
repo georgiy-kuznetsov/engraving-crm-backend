@@ -89,6 +89,11 @@ class OrderController extends BaseController
 
     public function destroy(string $id)
     {
-        //
+        if ( ! $order = Order::find($id) ) {
+            return $this->sendSuccessResponse([], 204);
+        };
+
+        $order->delete();
+        return $this->sendSuccessResponse([], 204);
     }
 }
