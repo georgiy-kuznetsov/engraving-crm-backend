@@ -51,9 +51,12 @@ class OrderController extends BaseController
         return $this->sendSuccessResponse($order, 201);
     }
 
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        if (! $order = Order::find($id)) {
+            return $this->sendErrorResponse(['Order not found'], 404);
+        };
+        return $this->sendSuccessResponse($order, 200);
     }
 
     public function update(Request $request, string $id)
