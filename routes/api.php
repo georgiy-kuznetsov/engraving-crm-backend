@@ -61,4 +61,4 @@ Route::get('/customers/{id}/orders', [CustomerController::class, 'getOrders'])->
 
 Route::apiResource('/orders', OrderController::class)->middleware(['api', 'auth:sanctum']);
 
-Route::apiResource('/coupons', CouponController::class)->middleware(['api', 'auth:sanctum'])->expect(['update']);
+Route::resource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
