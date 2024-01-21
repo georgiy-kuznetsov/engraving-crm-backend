@@ -67,7 +67,7 @@ Route::resource('/coupons', CouponController::class)->only(['index', 'store', 's
 
 Route::prefix('order-statuses')->group( function () {
     Route::get('/', [ OrderStatusController::class, 'index' ]);
-    Route::post('/{id}', [ OrderStatusController::class, 'store' ]);
+    Route::post('/', [ OrderStatusController::class, 'store' ]);
     Route::get('/{id}', [ OrderStatusController::class, 'show' ]);
     Route::delete('/{id}', [ OrderStatusController::class, 'destroy' ]);
 })->middleware(['api', 'auth:sanctum']);
