@@ -37,6 +37,11 @@ class StatusController extends BaseController
 
     public function destroy(string $id)
     {
-        //
+        if ( ! $status = Status::find($id) ) {
+            return $this->sendSuccessResponse([], 204);
+        };
+
+        $status->delete();
+        return $this->sendSuccessResponse([], 204);
     }
 }
