@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Models\Order\Status;
 use Illuminate\Http\Request;
 
-class StatusController extends Controller
+class StatusController extends BaseController
 {
     public function index()
     {
-        
+        $status = Status::all();
+        return $this->sendSuccessResponse($status, 200);
     }
 
     public function store(Request $request)
@@ -18,11 +20,6 @@ class StatusController extends Controller
     }
 
     public function show(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
     {
         //
     }
