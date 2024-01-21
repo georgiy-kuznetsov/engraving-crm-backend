@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CouponController extends BaseController
 {
@@ -15,7 +17,21 @@ class CouponController extends BaseController
 
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'promocode' => ['required', 'string', 'max:255'],
+            'term' => ['required', 'date'],
+            'discount_size' => ['required', 'decimal:2', 'max:99999999.99'],
+            'type' => ['required', 'string', Rule::in( Coupon::getPossibleTypes() ), 'max:255'],
+        ]);
+
+        $validatedData['term'] = Carbon::parse($validatedData['term']);
+
+        $coupon = Coupon::create([
+            ...$validatedData,
+            'user_id' => $request->user()->id,
+        ]);
+
+        return $this->sendSuccessResponse($coupon, 201);
     }
 
     public function show(string $id)

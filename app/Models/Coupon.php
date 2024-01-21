@@ -20,4 +20,11 @@ class Coupon extends Model
     protected $guarded = [
         'user_id',
     ];
+
+    public static function getPossibleTypes() {
+        return [
+            'fixed',
+            'percent',
+        ];
+    }
 }
