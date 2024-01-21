@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product\ProductAttributeController;
 use App\Http\Controllers\Product\ProductBilletController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\StatusController as ProductStatusController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -62,3 +63,5 @@ Route::get('/customers/{id}/orders', [CustomerController::class, 'getOrders'])->
 Route::apiResource('/orders', OrderController::class)->middleware(['api', 'auth:sanctum']);
 
 Route::resource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
+
+Route::resource('/status', ProductStatusController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
