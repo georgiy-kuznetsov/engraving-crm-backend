@@ -64,4 +64,10 @@ Route::apiResource('/orders', OrderController::class)->middleware(['api', 'auth:
 
 Route::resource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
-Route::resource('/status', OrderStatusController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
+
+Route::prefix('order-statuses')->group( function () {
+    Route::get('/', [ OrderStatusController::class, 'index' ]);
+    Route::post('/{id}', [ OrderStatusController::class, 'store' ]);
+    Route::get('/{id}', [ OrderStatusController::class, 'show' ]);
+    Route::delete('/{id}', [ OrderStatusController::class, 'destroy' ]);
+})->middleware(['api', 'auth:sanctum']);
