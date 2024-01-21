@@ -14,7 +14,8 @@ class OrderController extends BaseController
         $page = (int) $request->input('page') ?? 1;
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
 
-        $orders = Order::paginate($pageSize, ['*'], 'page', $page);
+        $orders = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
+                        ->paginate($pageSize, ['*'], 'page', $page);
 
         return $this->sendSuccessResponse([
             'page' => $orders->currentPage(),
@@ -33,6 +34,10 @@ class OrderController extends BaseController
             'shipping_amount' => ['required', 'decimal:2', 'max:99999999.99'],
             'gratuity_amount' => ['required', 'decimal:2', 'max:99999999.99'],
 
+            'coupon_id' => ['nullable', 'integer', 'exists:coupons,id'],
+            'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
+            'payment_method_id' => ['nullable', 'integer', 'exists:payment_methods,id'],
+            'status_id' => ['nullable', 'integer', 'exists:order_statuses,id'],
             'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
         ]);
 
@@ -54,7 +59,9 @@ class OrderController extends BaseController
 
     public function show(Request $request, string $id)
     {
-        if (! $order = Order::find($id)) {
+        $order = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
+                        ->find($id);
+        if (! $order ) {
             return $this->sendErrorResponse(['Order not found'], 404);
         };
         return $this->sendSuccessResponse($order, 200);
@@ -74,6 +81,10 @@ class OrderController extends BaseController
             'shipping_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
             'gratuity_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
 
+            'coupon_id' => ['nullable', 'integer', 'exists:coupons,id'],
+            'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
+            'payment_method_id' => ['nullable', 'integer', 'exists:payment_methods,id'],
+            'status_id' => ['nullable', 'integer', 'exists:order_statuses,id'],
             'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
         ]);
 

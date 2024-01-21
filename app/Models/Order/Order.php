@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -18,6 +19,11 @@ class Order extends Model
         'shipping_amount',
         'gratuity_amount',
         'total_amount',
+        'status_id',
+        'coupon_id',
+        'shipping_method_id',
+        'payment_method_id',
+        'user_id',
         'customer_id',
     ];
 
@@ -32,10 +38,6 @@ class Order extends Model
 
     protected $guarded = [
         'total_amount',
-        'status_id',
-        'coupon_id',
-        'shipping_method_id',
-        'payment_method_id',
         'user_id',
     ];
 
@@ -48,5 +50,25 @@ class Order extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function coupon(): BelongsTo
+    {
+        return $this->belongsTo(Coupon::class);
+    }
+
+    public function shippingMethod(): BelongsTo
+    {
+        return $this->belongsTo(ShippingMethod::class);
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }
