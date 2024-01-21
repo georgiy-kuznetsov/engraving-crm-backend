@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Order;
 
-use App\Models\Order;
+use App\Http\Controllers\BaseController;
+use App\Models\Order\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
