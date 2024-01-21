@@ -64,14 +64,9 @@ Route::get('/customers/{id}/orders', [CustomerController::class, 'getOrders'])->
 
 Route::apiResource('/orders', OrderController::class)->middleware(['api', 'auth:sanctum']);
 
-Route::resource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
+Route::apiResource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
-Route::prefix('order-statuses')->group( function () {
-    Route::get('/', [ OrderStatusController::class, 'index' ]);
-    Route::post('/', [ OrderStatusController::class, 'store' ]);
-    Route::get('/{id}', [ OrderStatusController::class, 'show' ]);
-    Route::delete('/{id}', [ OrderStatusController::class, 'destroy' ]);
-})->middleware(['api', 'auth:sanctum']);
+Route::apiResource('/order-statuses', OrderStatusController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/shipping-methods', ShippingMethodController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
