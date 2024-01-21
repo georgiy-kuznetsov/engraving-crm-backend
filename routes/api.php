@@ -9,6 +9,7 @@ use App\Http\Controllers\Billet\BilletProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Order\ShippingMethodController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product\ProductAttributeController;
 use App\Http\Controllers\Product\ProductBilletController;
@@ -71,3 +72,6 @@ Route::prefix('order-statuses')->group( function () {
     Route::get('/{id}', [ OrderStatusController::class, 'show' ]);
     Route::delete('/{id}', [ OrderStatusController::class, 'destroy' ]);
 })->middleware(['api', 'auth:sanctum']);
+
+
+Route::apiResource('/shipping-methods', ShippingMethodController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
