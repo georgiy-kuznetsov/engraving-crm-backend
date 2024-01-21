@@ -36,7 +36,11 @@ class CouponController extends BaseController
 
     public function show(string $id)
     {
-        //
+        if ( ! $coupon = Coupon::find($id) ) {
+            return $this->sendErrorResponse(['Coupon not found'], 404);
+        };
+        
+        return $this->sendSuccessResponse($coupon, 200);
     }
 
     public function update(Request $request, string $id)
