@@ -29,7 +29,10 @@ class StatusController extends BaseController
 
     public function show(string $id)
     {
-        //
+        if (! $status = Status::find($id)) {
+            return $this->sendErrorResponse(['Status not found'], 404);
+        };
+        return $this->sendSuccessResponse($status, 200);
     }
 
     public function destroy(string $id)
