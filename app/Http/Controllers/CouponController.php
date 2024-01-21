@@ -45,6 +45,13 @@ class CouponController extends BaseController
 
     public function destroy(string $id)
     {
-        //
+        $coupon = Coupon::find($id);
+
+        if (!$coupon) {
+            return $this->sendSuccessResponse([], 204);
+        };
+
+        $coupon->delete();
+        return $this->sendSuccessResponse([], 204);
     }
 }
