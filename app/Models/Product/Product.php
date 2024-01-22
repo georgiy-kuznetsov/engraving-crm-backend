@@ -3,6 +3,8 @@
 namespace App\Models\Product;
 
 use App\Models\Billet;
+use App\Models\Order\Order;
+use App\Models\Order\OrderProduct;
 use App\Models\Product\Attribute;
 use App\Models\Product\Category;
 use App\Models\User;
@@ -56,5 +58,14 @@ class Product extends Model
                     ->as('parts')
                     ->withPivot('quantity')
                     ->withTimestamps();
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class)
+                    ->using(OrderProduct::class)
+                    ->as('in_orders')
+                    ->withTimestamps();
+
     }
 }

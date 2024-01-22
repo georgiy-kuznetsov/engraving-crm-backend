@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->decimal('price', 8, 2)->unsigned();
-            $table->decimal('discount', 8, 2)->unsigned();
+            $table->decimal('sale_price', 8, 2)->nullable()->unsigned();
             $table->integer('quantity')->unsigned();
             $table->decimal('amount')->unsigned();
 
