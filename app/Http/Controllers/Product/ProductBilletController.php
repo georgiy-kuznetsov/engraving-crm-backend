@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Billet;
-use App\Models\Product;
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
 class ProductBilletController extends BaseController

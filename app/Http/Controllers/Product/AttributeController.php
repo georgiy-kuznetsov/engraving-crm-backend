@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
-use App\Models\Attribute;
+use App\Http\Controllers\BaseController;
+use App\Models\Product\Attribute;
 use Illuminate\Http\Request;
 
 class AttributeController extends BaseController

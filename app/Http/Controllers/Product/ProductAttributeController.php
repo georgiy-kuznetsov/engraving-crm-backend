@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
-use App\Models\Attribute;
-use App\Models\Product;
+use App\Models\Product\Attribute;
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
 class ProductAttributeController extends BaseController

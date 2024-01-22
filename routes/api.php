@@ -1,23 +1,23 @@
 <?php
 
-use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Billet\BilletController;
 use App\Http\Controllers\Billet\BilletProductController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Order\CouponController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\Order\PaymentMethodController;
-use App\Http\Controllers\Order\ShippingMethodController;
-use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Product\AttributeController;
+use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ProductAttributeController;
 use App\Http\Controllers\Product\ProductBilletController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Order\CouponController;
+use App\Http\Controllers\Order\PaymentMethodController;
+use App\Http\Controllers\Order\ShippingMethodController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\StatusController as OrderStatusController;
-use App\Http\Controllers\ProviderController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group( function () {

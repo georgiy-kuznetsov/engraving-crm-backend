@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
-use App\Models\Category;
+use App\Http\Controllers\BaseController;
+use App\Models\Product\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
