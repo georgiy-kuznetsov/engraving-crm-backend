@@ -108,7 +108,11 @@ class CustomerController extends BaseController
         if (! $customer = Customer::find($id)) {
             return $this->sendErrorResponse(['Customer not found'], 404);
         };
-    
-        return $this->sendSuccessResponse( $customer->orders()->get(), 200 );
+
+        $orders = $customer->orders()
+                    ->with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
+                    ->get();
+
+        return $this->sendSuccessResponse( $orders, 200 );
     }
 }
