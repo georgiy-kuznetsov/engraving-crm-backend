@@ -18,6 +18,7 @@ use App\Http\Controllers\Order\PaymentMethodController;
 use App\Http\Controllers\Order\ShippingMethodController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\OrderProductController;
+use App\Http\Controllers\Order\OrderBilletController;
 use App\Http\Controllers\Order\StatusController as OrderStatusController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,10 @@ Route::prefix('orders')->group( function () {
     Route::post('/{id}/products/{product_id}', [OrderProductController::class, 'store']);
     Route::put('/{id}/products/{product_id}', [OrderProductController::class, 'update']);
     Route::delete('/{id}/products/{product_id}', [OrderProductController::class, 'destroy']);
+    Route::get('/{id}/billets', [OrderBilletController::class, 'index']);
+    Route::post('/{id}/billets/{billet_id}', [OrderBilletController::class, 'store']);
+    Route::put('/{id}/billets/{billet_id}', [OrderBilletController::class, 'update']);
+    Route::delete('/{id}/billets/{billet_id}', [OrderBilletController::class, 'destroy']);
 });
 
 Route::apiResource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);

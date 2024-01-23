@@ -15,6 +15,7 @@ return new class extends Migration
             $table->double('price', 8, 2)->unsigned();
             $table->string('photo')->nullable();
             $table->integer('quantity')->unsigned();
+            $table->double('total_amount', 8, 2)->unsigned();
 
             $table->foreignId('order_id')
                     ->constrained()

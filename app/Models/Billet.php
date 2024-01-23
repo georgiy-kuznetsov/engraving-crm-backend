@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Order\Order;
+use App\Models\Order\OrderBillet;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,4 +49,13 @@ class Billet extends Model
                     ->as('parts')
                     ->withPivot('quantity')
                     ->withTimestamps();
-    }}
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_billet')
+                    ->using(OrderBillet::class)
+                    ->as('in_orders')
+                    ->withTimestamps();
+    }
+}

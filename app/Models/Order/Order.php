@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\Billet;
 use App\Models\Customer;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -77,6 +78,15 @@ class Order extends Model
         return $this->belongsToMany(Product::class)
                     ->using(OrderProduct::class)
                     ->withPivot('name', 'photo', 'price', 'sale_price', 'quantity', 'amount')
+                    ->as('order_items')
+                    ->withTimestamps();
+    }
+
+    public function billets(): BelongsToMany
+    {
+        return $this->belongsToMany(Billet::class, 'order_billet', 'order_id', 'billet_id')
+                    ->using(OrderBillet::class)
+                    ->withPivot('name', 'photo', 'price', 'quantity', 'total_amount')
                     ->as('order_items')
                     ->withTimestamps();
     }
