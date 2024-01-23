@@ -34,8 +34,6 @@ class Order extends Model
         'coupon_id',
         'shipping_method_id',
         'payment_method_id',
-        'user_id',
-        'customer_id',
     ];
 
     protected $guarded = [
