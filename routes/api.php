@@ -20,6 +20,7 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\OrderProductController;
 use App\Http\Controllers\Order\OrderBilletController;
 use App\Http\Controllers\Order\StatusController as OrderStatusController;
+use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group( function () {
@@ -39,6 +40,10 @@ Route::prefix('users')->group( function () {
     Route::get('/{id}/customers', [UserController::class, 'getCustomers']);
     Route::get('/{id}/orders', [UserController::class, 'getOrders']);
 });
+
+Route::get('/me', [ProfileController::class, 'index'])->middleware(['api', 'auth:sanctum']);
+Route::put('/me/edit', [ProfileController::class, 'update'])->middleware(['api', 'auth:sanctum']);
+Route::delete('/me/delete', [ProfileController::class, 'destroy'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/providers', ProviderController::class)->middleware(['api', 'auth:sanctum']);
 Route::get('/providers/{id}/billets', [ProviderController::class, 'getBillets'])->middleware(['api', 'auth:sanctum']);
