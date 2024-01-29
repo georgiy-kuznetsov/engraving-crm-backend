@@ -42,8 +42,8 @@ Route::prefix('users')->group( function () {
 });
 
 Route::get('/me', [ProfileController::class, 'index'])->middleware(['api', 'auth:sanctum']);
-Route::put('/me/edit', [ProfileController::class, 'update'])->middleware(['api', 'auth:sanctum']);
-Route::delete('/me/delete', [ProfileController::class, 'destroy'])->middleware(['api', 'auth:sanctum']);
+Route::put('/me', [ProfileController::class, 'update'])->middleware(['api', 'auth:sanctum']);
+Route::delete('/me', [ProfileController::class, 'destroy'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/providers', ProviderController::class)->middleware(['api', 'auth:sanctum']);
 Route::get('/providers/{id}/billets', [ProviderController::class, 'getBillets'])->middleware(['api', 'auth:sanctum']);
