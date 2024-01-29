@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Profile\UpdateRequest;
 use App\Http\Resources\Profile\ProfileResource;
 use App\Service\Profile\ProfileService;
 use Illuminate\Http\Request;
@@ -12,13 +13,15 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = ProfileService::getUserProfile();
+        $user = ProfileService::get();
         return ProfileResource::make($user);
     }
 
-    public function update(Request $request)
+    public function update(UpdateRequest $request)
     {
-        
+        $validatedData = $request->validated();
+        $user = ProfileService::update($validatedData);
+        return ProfileResource::make($user);
     }
 
     public function destroy(string $id)
