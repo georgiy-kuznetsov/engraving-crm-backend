@@ -24,8 +24,12 @@ class ProfileController extends Controller
         return ProfileResource::make($user);
     }
 
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        $user = ProfileService::delete();
+        return response()->json([
+            'success' => true,
+            'status' => 200,
+        ], 200);
     }
 }

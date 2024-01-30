@@ -19,4 +19,11 @@ class ProfileService extends Controller
         $user->update($data);
         return $user;
     }
+
+    static function delete()
+    {
+        $userId = auth()->user()->id;
+        User::findOrFail($userId)->delete();
+        return true;
+    }
 }
