@@ -10,6 +10,8 @@ class ShippingMethod extends Model
 {
     use HasFactory;
 
+    protected $table = 'shipping_methods';
+
     protected $fillable = [
         'name',
         'description',

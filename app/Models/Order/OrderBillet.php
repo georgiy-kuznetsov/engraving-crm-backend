@@ -9,6 +9,8 @@ class OrderBillet extends Pivot
 {
     use HasFactory;
 
+    protected $table = 'order_billet';
+
     public $incrementing = true;
 
     protected $fillable = [

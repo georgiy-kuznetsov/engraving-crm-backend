@@ -9,6 +9,8 @@ class OrderProduct extends Pivot
 {
     use HasFactory;
 
+    protected $table = 'order_product';
+
     public $incrementing = true;
 
     protected $fillable = [

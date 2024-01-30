@@ -14,6 +14,8 @@ class Billet extends Model
 {
     use HasFactory;
 
+    protected $table = 'billets';
+
     protected $fillable = [
         'name',
         'price',
