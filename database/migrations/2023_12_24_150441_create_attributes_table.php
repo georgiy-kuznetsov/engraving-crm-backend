@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('unit')->comment('Unit of measurement');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

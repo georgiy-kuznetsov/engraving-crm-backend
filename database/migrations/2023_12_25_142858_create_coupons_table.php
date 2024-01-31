@@ -21,6 +21,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

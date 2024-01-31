@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('billets', function (Blueprint $table) {
@@ -25,12 +22,10 @@ return new class extends Migration
             $table->foreignId('provider_id')->nullable()->constrained()->nullOnDelete();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('billets', function (Blueprint $table) {
