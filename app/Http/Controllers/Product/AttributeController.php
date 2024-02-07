@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Product\Attribute;
 use Illuminate\Http\Request;
 
-class AttributeController extends BaseController
+class AttributeController extends Controller
 {
     public function index(Request $request)
     {
@@ -15,13 +15,13 @@ class AttributeController extends BaseController
 
         $providers = Attribute::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page );
 
-        return $this->sendSuccessResponse([
+        return [
             'currentPage' => $providers->currentPage(),
             'lastPage' => $providers->lastPage(),
             'pageSize' => $providers->perPage(),
             'total' => $providers->total(),
             'items' => $providers->items(),
-        ], 200);
+        ];
     }
 
     public function store(Request $request)
@@ -36,21 +36,21 @@ class AttributeController extends BaseController
             'unit' => $validatedData['unit'],
         ]);
 
-        return $this->sendSuccessResponse($attribute, 200);
+        return $attribute;
     }
 
     public function show(string $id)
     {
         if (! $attribute = Attribute::find($id)) {
-            return $this->sendErrorResponse(['Attribute not found'], 404);
+            // return $this->sendErrorResponse(['Attribute not found'], 404);
         };
-        return $this->sendSuccessResponse($attribute, 200);
+        return $attribute;
     }
 
     public function update(Request $request, string $id)
     {
         if (! $attribute = Attribute::find($id)) {
-            return $this->sendErrorResponse(['Attribute not found'], 404);
+            // return $this->sendErrorResponse(['Attribute not found'], 404);
         };
 
         $validatedData = $request->validate([
@@ -59,16 +59,16 @@ class AttributeController extends BaseController
         ]);
 
         $attribute->update($validatedData);
-        return $this->sendSuccessResponse($attribute, 200);
+        return $attribute;
     }
 
     public function destroy(string $id)
     {
         if ( ! $attribute = Attribute::find($id) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $attribute->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

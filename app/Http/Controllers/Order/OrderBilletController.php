@@ -12,23 +12,23 @@ class OrderBilletController extends BaseController
     public function index(int $orderId)
     {
         if (! $order = Order::find($orderId) ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
-        return $this->sendSuccessResponse($order->billets, 200);
+        return $order->billets;
     }
 
     public function store(Request $request, int $orderId, int $billetId)
     {
         if ( ! $order = Order::find($orderId) ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
         
         if ( ! $billet = Billet::find($billetId) ) {
-            return $this->sendErrorResponse(['Billet not found'], 404);
+            // return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
         if ( $order->billets->contains($billet) ) {
-            return $this->sendErrorResponse(['Billet already exists'], 409);
+            // return $this->sendErrorResponse(['Billet already exists'], 409);
         };
 
         $validatedData = $request->validate([
@@ -44,17 +44,17 @@ class OrderBilletController extends BaseController
         ];
 
         $order->billets()->attach($billet, $billetData);
-        return $this->sendSuccessResponse([], 200);
+        return response()->json([], 200);
     }
 
     public function update(Request $request, int $orderId, int $billetId)
     {
         if ( ! $order = Order::find($orderId) ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
 
         if ( ! $order->billets->contains($billetId) ) {
-            return $this->sendErrorResponse(['Billet does not already exists'], 404);
+            // return $this->sendErrorResponse(['Billet does not already exists'], 404);
         };
 
         $billet = $order->billets()->where('billets.id', $billetId)->first();
@@ -69,21 +69,21 @@ class OrderBilletController extends BaseController
         ];
 
         $order->billets()->updateExistingPivot($billet->id, $billetData);
-        return $this->sendSuccessResponse([], 200);
+        return [];
     }
 
     public function destroy(int $orderId, int $billetId)
     {
         if (! $order = Order::find($orderId)) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
         
         $billet = Billet::find($billetId);
         if (! $billet) {
-            return $this->sendErrorResponse(['Billet not found'], 404);
+            // return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
         $order->billets()->detach($billet);
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

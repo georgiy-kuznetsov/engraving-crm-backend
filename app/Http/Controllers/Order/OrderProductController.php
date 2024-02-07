@@ -2,36 +2,36 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
-class OrderProductController extends BaseController
+class OrderProductController extends Controller
 {
     public function index(Request $request, int $orderId)
     {
         if (! $order = Order::find($orderId) ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
 
         $products = $order->products;
 
-        return $this->sendSuccessResponse($products, 200);
+        return $products;
     }
 
     public function store(Request $request, int $orderId, int $productId)
     {
         if ( ! $order = Order::find($orderId) ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
         
         if ( ! $product = Product::find($productId) ) {
-            return $this->sendErrorResponse(['Product not found'], 404);
+            // return $this->sendErrorResponse(['Product not found'], 404);
         };
 
         if ( $order->products->contains($productId) ) {
-            return $this->sendErrorResponse(['Product already exists'], 409);
+            // return $this->sendErrorResponse(['Product already exists'], 409);
         };
 
         $validatedData = $request->validate([
@@ -54,17 +54,17 @@ class OrderProductController extends BaseController
         ];
 
         $order->products()->attach($product, $productData);
-        return $this->sendSuccessResponse([], 200);
+        return [];
     }
 
     public function update(Request $request, int $orderId, int $productId)
     {
         if ( ! $order = Order::find($orderId) ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
 
         if ( ! $order->products->contains($productId) ) {
-            return $this->sendErrorResponse(['Product does not already exists'], 404);
+            // return $this->sendErrorResponse(['Product does not already exists'], 404);
         };
 
         $product = $order->products()->where('products.id', $productId)->first();
@@ -81,21 +81,21 @@ class OrderProductController extends BaseController
         ];
 
         $order->products()->updateExistingPivot($product->id, $productData);
-        return $this->sendSuccessResponse([], 200);
+        return [];
     }
 
     public function destroy(int $orderId, int $productId)
     {
         if (! $order = Order::find($orderId)) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
         
         $product = Product::find($productId);
         if (! $product) {
-            return $this->sendErrorResponse(['Product not found'], 404);
+            // return $this->sendErrorResponse(['Product not found'], 404);
         };
 
         $order->products()->detach($product);
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

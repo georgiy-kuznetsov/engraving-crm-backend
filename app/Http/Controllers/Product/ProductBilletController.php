@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Billet;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
-class ProductBilletController extends BaseController
+class ProductBilletController extends Controller
 {
     public function index(Request $request, $productId)
     {
@@ -19,21 +19,21 @@ class ProductBilletController extends BaseController
 
         $billets = $product->billets;
 
-        return $this->sendSuccessResponse($billets, 200);
+        return $billets;
     }
     
     public function store(Request $request, $productId, $billetId)
     {
         if ( ! $product = Product::find($productId) ) {
-            return $this->sendErrorResponse(['Product not found'], 404);
+            // return $this->sendErrorResponse(['Product not found'], 404);
         };
 
         if ( ! $billet = Billet::find($billetId) ) {
-            return $this->sendErrorResponse(['Billet not found'], 404);
+            // return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
         if ( $product->billets->contains($billetId) ) {
-            return $this->sendErrorResponse(['Billet already exists'], 409);
+            // return $this->sendErrorResponse(['Billet already exists'], 409);
         };
 
         $validatedData = $request->validate([
@@ -41,22 +41,22 @@ class ProductBilletController extends BaseController
         ]);
 
         $product->billets()->attach($billet, ['quantity' => $validatedData['quantity']]);
-        return $this->sendSuccessResponse([], 200);
+        return [];
     }
 
     public function destroy(Request $request, $productId, $billetId)
     {
         $product = Product::find($productId);
         if (! $product) {
-            return $this->sendErrorResponse(['Product not found'], 404);
+            // return $this->sendErrorResponse(['Product not found'], 404);
         };
 
         $billet = Billet::find($billetId);
         if (! $billet) {
-            return $this->sendErrorResponse(['Billet not found'], 404);
+            // return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
         $product->billets()->detach($billet);
-        return $this->sendSuccessResponse([], 200);
+        return [];
     }
 }

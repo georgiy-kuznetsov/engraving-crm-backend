@@ -6,7 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class CustomerController extends BaseController
+class CustomerController extends Controller
 {
     public function index(Request $request)
     {
@@ -15,12 +15,12 @@ class CustomerController extends BaseController
 
         $customerItems = Customer::paginate($pageSize, ['*'], 'page', $page);
 
-        return $this->sendSuccessResponse([
+        return [
             'page' => $customerItems->currentPage(),
             'pageSize' => $customerItems->perPage(),
             'total' => $customerItems->total(),
             'items' => $customerItems->items(),
-        ], 200);
+        ];
     }
 
     public function store(Request $request)
@@ -51,15 +51,15 @@ class CustomerController extends BaseController
             'is_regular' => false,
         ]);
 
-        return $this->sendSuccessResponse($customer, 201);
+        return $customer;
     }
 
     public function show(string $id)
     {
         if (! $customer = Customer::find($id)) {
-            return $this->sendErrorResponse(['Customer not found'], 404);
+            // return $this->sendErrorResponse(['Customer not found'], 404);
         };
-        return $this->sendSuccessResponse($customer, 200);
+        return $customer;
     }
 
     public function update(Request $request, string $id)
@@ -67,7 +67,7 @@ class CustomerController extends BaseController
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return $this->sendErrorResponse(['Customer not found'], 404);
+            // return $this->sendErrorResponse(['Customer not found'], 404);
         };
 
         $validatedData = $request->validate([
@@ -91,28 +91,28 @@ class CustomerController extends BaseController
 
         $customer->update($validatedData);
 
-        return $this->sendSuccessResponse($customer, 200);
+        return $customer;
     }
 
     public function destroy(string $customerId)
     {
         if ( ! $customer = Customer::find($customerId) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $customer->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 
     public function getOrders(int $id) {
         if (! $customer = Customer::find($id)) {
-            return $this->sendErrorResponse(['Customer not found'], 404);
+            // return $this->sendErrorResponse(['Customer not found'], 404);
         };
 
         $orders = $customer->orders()
                     ->with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
                     ->get();
 
-        return $this->sendSuccessResponse( $orders, 200 );
+        return $orders;
     }
 }

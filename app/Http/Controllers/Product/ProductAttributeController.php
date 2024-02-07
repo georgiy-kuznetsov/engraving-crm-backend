@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Product\Attribute;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
-class ProductAttributeController extends BaseController
+class ProductAttributeController extends Controller
 {
     public function index(Request $request, $productId)
     {
@@ -16,21 +15,21 @@ class ProductAttributeController extends BaseController
             return $this->sendErrorResponse(['Product not found'], 404);
         };
         $attributes = $product->attributes;
-        return $this->sendSuccessResponse($attributes, 200);
+        return $attributes;
     }
     
     public function store(Request $request, $productId, $attributeId)
     {
         if ( ! $product = Product::find($productId) ) {
-            return $this->sendErrorResponse(['Product not found'], 404);
+            // return $this->sendErrorResponse(['Product not found'], 404);
         };
 
         if ( ! $attribute = Attribute::find($attributeId) ) {
-            return $this->sendErrorResponse(['Attribute not found'], 404);
+            // return $this->sendErrorResponse(['Attribute not found'], 404);
         };
 
         if ( $product->attributes->contains($attributeId) ) {
-            return $this->sendErrorResponse(['Attribute already exists'], 409);
+            // return $this->sendErrorResponse(['Attribute already exists'], 409);
         };
 
         $validatedData = $request->validate([
@@ -38,20 +37,20 @@ class ProductAttributeController extends BaseController
         ]);
 
         $product->attributes()->attach($attribute, ['value' => $validatedData['value']]);
-        return $this->sendSuccessResponse([], 200);
+        return [];
     }
 
     public function destroy(Request $request, $productId, $attributeId)
     {
         if ( ! $product = Product::find($productId) ) {
-            return $this->sendErrorResponse(['Product not found'], 404);
+            // return $this->sendErrorResponse(['Product not found'], 404);
         };
 
         if ( ! $attribute = Attribute::find($attributeId) ) {
-            return $this->sendErrorResponse(['Attribute not found'], 404);
+            // return $this->sendErrorResponse(['Attribute not found'], 404);
         };
 
         $product->attributes()->detach($attribute);
-        return $this->sendSuccessResponse([], 200);
+        return  [];
     }
 }

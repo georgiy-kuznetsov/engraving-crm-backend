@@ -14,7 +14,7 @@ class FormatResponse
         $response->setData([
             'statusCode' => $response->getStatusCode(),
             'success' => $request->isSuccess ?? true,
-            'message' => $request->message ?? '',
+            'message' => $request->get('message') ?? '',
             'errors' => $request->errors ?? [],
             'data' => $response->getData(true),
         ]);

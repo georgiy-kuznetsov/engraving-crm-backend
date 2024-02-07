@@ -28,9 +28,6 @@ class ProfileController extends BaseController
     public function destroy()
     {
         $user = $this->service->delete();
-        return response()->json([
-            'success' => true,
-            'status' => 200,
-        ], 200);
+        return [];
     }
 }

@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 use Illuminate\Validation\ValidationException;
-use App\Http\Controllers\BaseController;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     public function index(Request $request)
     {  
@@ -18,7 +17,7 @@ class UserController extends BaseController
 
         $usersData = User::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page );
 
-        return $this->sendSuccessResponse([
+        return [
             'users' => $usersData->items(),
             'currentPage' => $usersData->currentPage(),
             'lastPage' => $usersData->lastPage(),
@@ -26,7 +25,7 @@ class UserController extends BaseController
             'total' => $usersData->total(),
             'nextPageUrl' => $usersData->nextPageUrl(),
             'previousPageUrl' => $usersData->previousPageUrl(),
-        ], 200);
+        ];
     }
 
     public function store(Request $request)
@@ -55,14 +54,14 @@ class UserController extends BaseController
             'active' => false,
         ]);
 
-        return $this->sendSuccessResponse($user, 200);
+        return $user;
     }
 
     public function show(User $user)
     {
-        $data = User::find($user);
+        $user = User::find($user);
 
-        return $this->sendSuccessResponse($data, 200);
+        return $user;
     }
 
     public function update(Request $request, $userId)
@@ -77,51 +76,51 @@ class UserController extends BaseController
     
         $user->update($validatedData);
 
-        return $this->sendSuccessResponse($validatedData, 200);
+        return $validatedData;
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 
     public function getProviders($userId) {
         if (! $user = User::find($userId)) {
-            return $this->sendErrorResponse(['User not found'], 404);
+            // return $this->sendErrorResponse(['User not found'], 404);
         };
-        return $this->sendSuccessResponse( $user->provider()->get(), 200 );
+        return $user->provider()->get();
     }
 
     public function getProducts($userId) {
         if (! $user = User::find($userId)) {
-            return $this->sendErrorResponse(['User not found'], 404);
+            // return $this->sendErrorResponse(['User not found'], 404);
         };
-        return $this->sendSuccessResponse( $user->product()->get(), 200 );
+        return $user->product()->get();
     }
 
     public function getBillets($userId) {
         if (! $user = User::find($userId)) {
-            return $this->sendErrorResponse(['User not found'], 404);
+            // return $this->sendErrorResponse(['User not found'], 404);
         };
     
-        return $this->sendSuccessResponse( $user->billet()->get(), 200 );
+        return $user->billet()->get();
     }
 
     public function getCustomers($userId) {
         if (! $user = User::find($userId)) {
-            return $this->sendErrorResponse(['User not found'], 404);
+            // return $this->sendErrorResponse(['User not found'], 404);
         };
     
-        return $this->sendSuccessResponse( $user->customers()->get(), 200 );
+        return $user->customers()->get();
     }
 
     public function getOrders($userId) {
         if (! $user = User::find($userId)) {
-            return $this->sendErrorResponse(['User not found'], 404);
+            // return $this->sendErrorResponse(['User not found'], 404);
         };
     
-        return $this->sendSuccessResponse( $user->orders()->get(), 200 );
+        return $user->orders()->get();
     }
 }

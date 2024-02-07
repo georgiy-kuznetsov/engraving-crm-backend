@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Order\Status;
 use Illuminate\Http\Request;
 
-class StatusController extends BaseController
+class StatusController extends Controller
 {
     public function index()
     {
         $status = Status::all();
-        return $this->sendSuccessResponse($status, 200);
+        return $status;
     }
 
     public function store(Request $request)
@@ -24,24 +24,24 @@ class StatusController extends BaseController
 
         $status = Status::create($validatedData);
 
-        return $this->sendSuccessResponse($status, 200);
+        return $status;
     }
 
     public function show(string $id)
     {
         if (! $status = Status::find($id)) {
-            return $this->sendErrorResponse(['Status not found'], 404);
+            // return $this->sendErrorResponse(['Status not found'], 404);
         };
-        return $this->sendSuccessResponse($status, 200);
+        return $status;
     }
 
     public function destroy(string $id)
     {
         if ( ! $status = Status::find($id) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $status->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

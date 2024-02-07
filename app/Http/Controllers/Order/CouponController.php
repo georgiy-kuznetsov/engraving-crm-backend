@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Order\Coupon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class CouponController extends BaseController
+class CouponController extends Controller
 {
     public function index()
     {
         $coupons = Coupon::all();
-        return $this->sendSuccessResponse($coupons, 200);
+        return $coupons;
     }
 
     public function store(Request $request)
@@ -32,27 +32,25 @@ class CouponController extends BaseController
             'user_id' => $request->user()->id,
         ]);
 
-        return $this->sendSuccessResponse($coupon, 201);
+        return $coupon;
     }
 
     public function show(string $id)
     {
         if ( ! $coupon = Coupon::find($id) ) {
-            return $this->sendErrorResponse(['Coupon not found'], 404);
+            // return $this->sendErrorResponse(['Coupon not found'], 404);
         };
         
-        return $this->sendSuccessResponse($coupon, 200);
+        return $coupon;
     }
 
     public function destroy(string $id)
     {
-        $coupon = Coupon::find($id);
-
-        if (!$coupon) {
-            return $this->sendSuccessResponse([], 204);
+        if ( ! $coupon = Coupon::find($id) ) {
+            return response()->json([], 204);
         };
 
         $coupon->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

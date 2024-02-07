@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class LogoutController extends BaseController
+class LogoutController extends Controller
 {
     public function logout(Request $request) {
         $request->user()->currentAccessToken()->delete();
         
-        return $this->sendSuccessResponse([], 200, ['Successfuly logged out.']);
+        $request->attributes->set('message', 'Выход выполнен успешно.');
+        return [];
     }
 }

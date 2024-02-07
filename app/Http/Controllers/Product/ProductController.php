@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends BaseController
+class ProductController extends Controller
 {
     public function index(Request $request)
     {
@@ -16,14 +16,12 @@ class ProductController extends BaseController
 
         $productItems = Product::with('category')->paginate($pageSize, ['*'], 'page', $page);
 
-        $data = [
+        return [
             'page' => $productItems->currentPage(),
             'pageSize' => $productItems->perPage(),
             'total' => $productItems->total(),
             'items' => $productItems->items(),
         ];
-
-        return $this->sendSuccessResponse($data, 200);
     }
 
     public function store(Request $request)
@@ -39,20 +37,20 @@ class ProductController extends BaseController
             'onsale' => ['required', 'boolean'],
         ]);
 
-        $billet = Product::create([
+        $product = Product::create([
             ...$validatedData,
             'photo' => null,
             'user_id' => $request->user()->id,
         ]);
 
-        return $this->sendSuccessResponse($billet, 201);
+        return $product;
     }
 
     public function show(string $id)
     {
         $product = Product::with('category')->find($id);
         
-        return $this->sendSuccessResponse($product, 200);
+        return $product;
     }
 
     public function update(Request $request, string $id)
@@ -76,7 +74,7 @@ class ProductController extends BaseController
 
         $product->update($validatedData);
 
-        return $this->sendSuccessResponse($product, 200);
+        return $product;
     }
 
     public function destroy(string $id)
@@ -84,10 +82,10 @@ class ProductController extends BaseController
         $product = Product::find($id);
 
         if (!$product) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $product->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

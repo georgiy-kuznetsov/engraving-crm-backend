@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 
-class ProviderController extends BaseController
+class ProviderController extends Controller
 {
     public function index(Request $request)
     {
@@ -14,13 +14,13 @@ class ProviderController extends BaseController
 
         $providers = Provider::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page );
 
-        return $this->sendSuccessResponse([
+        return [
             'currentPage' => $providers->currentPage(),
             'lastPage' => $providers->lastPage(),
             'pageSize' => $providers->perPage(),
             'total' => $providers->total(),
             'items' => $providers->items(),
-        ], 200);
+        ];
     }
     
     public function store(Request $request)
@@ -45,7 +45,7 @@ class ProviderController extends BaseController
 
         $userId = $request->user()->id;
 
-        $user = Provider::create([
+        $provider = Provider::create([
             'name' => $validatedData['name'],
             'phone' => $validatedData['phone'],
             'email' => $validatedData['email'],
@@ -65,15 +65,15 @@ class ProviderController extends BaseController
             'user_id' => $userId,
         ]);
 
-        return $this->sendSuccessResponse($user, 200);
+        return $provider;
     }
     
     public function show(Request $request, string $id)
     {
         if (! $provider = Provider::find($id)) {
-            return $this->sendErrorResponse(['Provider not found'], 404);
+            // return $this->sendErrorResponse(['Provider not found'], 404);
         };
-        return $this->sendSuccessResponse($provider, 200);
+        return $provider;
     }
     
     public function update(Request $request, string $id)
@@ -81,7 +81,7 @@ class ProviderController extends BaseController
         $provider = Provider::find($id);
 
         if (!$provider) {
-            return $this->sendErrorResponse(['Provider not found'], 404);
+            // return $this->sendErrorResponse(['Provider not found'], 404);
         };
 
         $validatedData = $request->validate([
@@ -104,24 +104,24 @@ class ProviderController extends BaseController
 
         $provider->update($validatedData);
 
-        return $this->sendSuccessResponse($provider, 200);
+        return $provider;
     }
     
     public function destroy(string $id)
     {
         if ( ! $provider = Provider::find($id) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $provider->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
     
     public function getBillets(string $providerId) {
         if (! $provider = Provider::find($providerId)) {
-            return $this->sendErrorResponse(['Provider not found'], 404);
+            // return $this->sendErrorResponse(['Provider not found'], 404);
         };
     
-        return $this->sendSuccessResponse( $provider->billets()->get(), 200 );
+        return $provider->billets()->get();
     }
 }

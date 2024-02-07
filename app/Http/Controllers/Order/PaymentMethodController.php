@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Order\PaymentMethod;
 use Illuminate\Http\Request;
 
-class PaymentMethodController extends BaseController
+class PaymentMethodController extends Controller
 {
     public function index()
     {
         $paymentMethods = PaymentMethod::all();
-        return $this->sendSuccessResponse($paymentMethods, 200);
+        return $paymentMethods;
     }
 
     public function store(Request $request)
@@ -25,24 +24,24 @@ class PaymentMethodController extends BaseController
 
         $paymentMethod = PaymentMethod::create($validatedData);
 
-        return $this->sendSuccessResponse($paymentMethod, 200);
+        return $paymentMethod;
     }
 
     public function show(string $id)
     {
         if (! $paymentMethod = PaymentMethod::find($id)) {
-            return $this->sendErrorResponse(['Payment method not found'], 404);
+            // return $this->sendErrorResponse(['Payment method not found'], 404);
         };
-        return $this->sendSuccessResponse($paymentMethod, 200);
+        return $paymentMethod;
     }
 
     public function destroy(string $id)
     {
         if ( ! $paymentMethod = PaymentMethod::find($id) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $paymentMethod->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

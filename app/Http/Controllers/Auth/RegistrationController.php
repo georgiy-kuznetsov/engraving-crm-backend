@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class RegistrationController extends BaseController
+class RegistrationController extends Controller
 {
     public function registration(Request $request) {
         $validatedData = $request->validate([
@@ -31,8 +31,6 @@ class RegistrationController extends BaseController
             'active' => false,
         ]);
 
-        return $this->sendSuccessResponse([
-            'token' => $user->createToken('api-token')->plainTextToken,
-        ], 201);
+        return [ 'token' => $user->createToken('api-token')->plainTextToken ];
     }
 }

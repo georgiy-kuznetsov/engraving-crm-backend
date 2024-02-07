@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class OrderController extends BaseController
+class OrderController extends Controller
 {
     public function index(Request $request)
     {
@@ -17,12 +17,12 @@ class OrderController extends BaseController
         $orders = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
                         ->paginate($pageSize, ['*'], 'page', $page);
 
-        return $this->sendSuccessResponse([
+        return [
             'page' => $orders->currentPage(),
             'pageSize' => $orders->perPage(),
             'total' => $orders->total(),
             'items' => $orders->items(),
-        ], 200);
+        ];
     }
 
     public function store(Request $request)
@@ -54,7 +54,7 @@ class OrderController extends BaseController
             $order->save();
         }
 
-        return $this->sendSuccessResponse($order, 201);
+        return $order;
     }
 
     public function show(Request $request, string $id)
@@ -62,9 +62,9 @@ class OrderController extends BaseController
         $order = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
                         ->find($id);
         if (! $order ) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
-        return $this->sendSuccessResponse($order, 200);
+        return $order;
     }
 
     public function update(Request $request, string $id)
@@ -72,7 +72,7 @@ class OrderController extends BaseController
         $order = Order::find($id);
 
         if (!$order) {
-            return $this->sendErrorResponse(['Order not found'], 404);
+            // return $this->sendErrorResponse(['Order not found'], 404);
         };
 
         $validatedData = $request->validate([
@@ -96,16 +96,16 @@ class OrderController extends BaseController
             'total_amount' => $totalAmount,
         ]);
         
-        return $this->sendSuccessResponse($order, 200);
+        return $order;
     }
 
     public function destroy(string $id)
     {
         if ( ! $order = Order::find($id) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $order->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 }

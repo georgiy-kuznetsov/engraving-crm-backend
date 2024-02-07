@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Product\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends BaseController
+class CategoryController extends Controller
 {
     public function index()
     {
         $categories = Category::all();
-        return $this->sendSuccessResponse($categories, 200);
+        return $categories;
     }
 
     public function store(Request $request)
@@ -23,22 +23,22 @@ class CategoryController extends BaseController
 
         $category = Category::create($validatedData);
 
-        return $this->sendSuccessResponse($category, 201);
+        return $category;
     }
 
     public function show(string $id)
     {
         if ( ! $category = Category::find($id) ) {
-            return $this->sendErrorResponse(['Category not found'], 404);
+            // return $this->sendErrorResponse(['Category not found'], 404);
         };
         
-        return $this->sendSuccessResponse($category, 200);
+        return $category;
     }
 
     public function update(Request $request, string $id)
     {
         if ( ! $category = Category::find($id) ) {
-            return $this->sendErrorResponse(['Category not found'], 404);
+            // return $this->sendErrorResponse(['Category not found'], 404);
         };
 
         $validatedData = $request->validate([
@@ -48,17 +48,17 @@ class CategoryController extends BaseController
 
         $category->update($validatedData);
 
-        return $this->sendSuccessResponse($category, 200);
+        return $category;
     }
 
     public function destroy(string $id)
     {
         if ( ! $category = Category::find($id) ) {
-            return $this->sendSuccessResponse([], 204);
+            return response()->json([], 204);
         };
 
         $category->delete();
-        return $this->sendSuccessResponse([], 204);
+        return response()->json([], 204);
     }
 
     public function getProducts(string $id) {
