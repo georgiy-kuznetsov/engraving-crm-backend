@@ -49,14 +49,6 @@ Route::apiResource('/providers', ProviderController::class)->middleware(['api', 
 Route::get('/providers/{id}/billets', [ProviderController::class, 'getBillets'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
-Route::prefix('products')->group( function () {
-    Route::get('/{id}/billets', [ProductBilletController::class, 'index']);
-    Route::post('/{id}/billets/{billet_id}', [ProductBilletController::class, 'store']);
-    Route::delete('/{id}/billets/{billet_id}', [ProductBilletController::class, 'destroy']);
-    Route::get('/{id}/attributes', [ProductAttributeController::class, 'index']);
-    Route::post('/{id}/attributes/{attribute_id}', [ProductAttributeController::class, 'store']);
-    Route::delete('/{id}/attributes/{attribute_id}', [ProductAttributeController::class, 'destroy']);
-})->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/billets', BilletController::class)->middleware(['api', 'auth:sanctum']);
 Route::get('/billets/{id}/products', [BilletProductController::class, 'index'])->middleware(['api', 'auth:sanctum']);

@@ -58,7 +58,6 @@ class Product extends Model
     public function billets(): BelongsToMany
     {
         return $this->belongsToMany(Billet::class, 'product_billet')
-                    ->as('parts')
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
