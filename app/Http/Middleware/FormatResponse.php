@@ -13,7 +13,7 @@ class FormatResponse
         $response = $next($request);
         $response->setData([
             'statusCode' => $response->getStatusCode(),
-            'success' => $request->isSuccess ?? true,
+            'success' => ($response->getStatusCode() > 399) ? false : true,
             'message' => $request->get('message') ?? '',
             'errors' => $request->errors ?? [],
             'data' => $response->getData(true),
