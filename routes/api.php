@@ -62,16 +62,6 @@ Route::apiResource('/customers', CustomerController::class)->middleware(['api', 
 Route::get('/customers/{id}/orders', [CustomerController::class, 'getOrders'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/orders', OrderController::class)->middleware(['api', 'auth:sanctum']);
-Route::prefix('orders')->group( function () {
-    Route::get('/{id}/products', [OrderProductController::class, 'index']);
-    Route::post('/{id}/products/{product_id}', [OrderProductController::class, 'store']);
-    Route::put('/{id}/products/{product_id}', [OrderProductController::class, 'update']);
-    Route::delete('/{id}/products/{product_id}', [OrderProductController::class, 'destroy']);
-    Route::get('/{id}/billets', [OrderBilletController::class, 'index']);
-    Route::post('/{id}/billets/{billet_id}', [OrderBilletController::class, 'store']);
-    Route::put('/{id}/billets/{billet_id}', [OrderBilletController::class, 'update']);
-    Route::delete('/{id}/billets/{billet_id}', [OrderBilletController::class, 'destroy']);
-});
 
 Route::apiResource('/coupons', CouponController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
