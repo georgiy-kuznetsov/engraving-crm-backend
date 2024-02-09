@@ -133,6 +133,7 @@ class OrderController extends Controller
             'price_discount' => $costDiscount,
             'discount_amount' => $discountAmount,
             'amount' => $totalAmount,
+            'user_id' => $request->user()->id,
         ]);
 
         $order->products()->attach($products);
