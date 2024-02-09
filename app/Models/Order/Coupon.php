@@ -15,10 +15,10 @@ class Coupon extends Model
     
     protected $fillable = [
         'promocode',
-        'term',
         'discount_size',
         'type',
-        'user_id'
+        'user_id',
+        'expires_at',
     ];
 
     protected $guarded = [

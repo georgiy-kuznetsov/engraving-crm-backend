@@ -20,12 +20,12 @@ class CouponController extends Controller
     {
         $validatedData = $request->validate([
             'promocode' => ['required', 'string', 'max:255', 'unique:coupons,promocode'],
-            'term' => ['required', 'date'],
             'discount_size' => ['required', 'decimal:2', 'max:99999999.99'],
             'type' => ['required', 'string', Rule::in( Coupon::getPossibleTypes() ), 'max:255'],
+            'expires_at' => ['required', 'date'],
         ]);
 
-        $validatedData['term'] = Carbon::parse($validatedData['term']);
+        $validatedData['expires_at'] = Carbon::parse($validatedData['expires_at']);
 
         $coupon = Coupon::create([
             ...$validatedData,
