@@ -98,7 +98,7 @@ class ProductController extends Controller
             'onsale' => ['required', 'boolean'],
 
             'billets' => ['nullable', 'array'],
-            'billets.*' => ['required', 'integer', 'exists:products,id'],
+            'billets.*' => ['required', 'integer', 'exists:billets,id'],
             'billet_quantity' => ['nullable', 'array'],
             'billet_quantity.*' => ['required', 'integer'],
 
