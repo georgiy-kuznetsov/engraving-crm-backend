@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->decimal('price', 8, 2)->unsigned();
             $table->decimal('sale_price', 8, 2)->nullable()->unsigned();
+            $table->boolean('onsale')->default(false);
             $table->integer('quantity')->unsigned();
             $table->decimal('amount')->unsigned();
 
