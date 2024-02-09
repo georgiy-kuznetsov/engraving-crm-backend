@@ -89,7 +89,7 @@ class Order extends Model
     {
         return $this->belongsToMany(Billet::class, 'order_billet', 'order_id', 'billet_id')
                     ->using(OrderBillet::class)
-                    ->withPivot('name', 'photo', 'price', 'quantity', 'total_amount')
+                    ->withPivot('name', 'photo', 'price', 'quantity', 'amount')
                     ->withTimestamps();
     }
 }

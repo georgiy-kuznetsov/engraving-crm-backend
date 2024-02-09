@@ -20,6 +20,6 @@ class OrderBillet extends Pivot
         'quantity',
         'order_id',
         'billet_id',
-        'total_amount',
+        'amount',
     ];
 }
