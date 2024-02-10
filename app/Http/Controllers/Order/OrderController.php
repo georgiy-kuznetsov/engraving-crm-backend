@@ -18,7 +18,7 @@ class OrderController extends Controller
         $page = (int) $request->input('page') ?? 1;
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
 
-        $orders = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets'])
+        $orders = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source'])
                         ->paginate($pageSize, ['*'], 'page', $page);
 
         return [
@@ -39,6 +39,7 @@ class OrderController extends Controller
             'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
             'payment_method_id' => ['nullable', 'integer', 'exists:payment_methods,id'],
             'status_id' => ['nullable', 'integer', 'exists:order_statuses,id'],
+            'source_id' => ['nullable', 'integer', 'exists:order_sources,id'],
             'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
             
             'products' => ['nullable', 'array'],
@@ -144,12 +145,12 @@ class OrderController extends Controller
             $order->save();
         }
 
-        return $order->load(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets']);
+        return $order->load(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source']);
     }
 
     public function show(Request $request, string $id)
     {
-        return Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets'])
+        return Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source'])
                     ->findOrFail($id);
     }
 
@@ -164,6 +165,7 @@ class OrderController extends Controller
             'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
             'payment_method_id' => ['nullable', 'integer', 'exists:payment_methods,id'],
             'status_id' => ['nullable', 'integer', 'exists:order_statuses,id'],
+            'source_id' => ['nullable', 'integer', 'exists:order_sources,id'],
             'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
                         
             'products' => ['nullable', 'array'],
@@ -263,7 +265,7 @@ class OrderController extends Controller
         $order->products()->sync($products);
         $order->billets()->sync($billets);
 
-        return $order->load(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets']);
+        return $order->load(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source']);
     }
 
     public function destroy(string $id)

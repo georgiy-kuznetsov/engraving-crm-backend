@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -27,6 +26,7 @@ class Order extends Model
         'gratuity_amount',
         'total_amount',
         'status_id',
+        'source_id',
         'coupon_id',
         'shipping_method_id',
         'payment_method_id',
@@ -75,6 +75,11 @@ class Order extends Model
     public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function source(): BelongsTo
+    {
+        return $this->belongsTo(Source::class, 'source_id');
     }
 
     public function products(): BelongsToMany
