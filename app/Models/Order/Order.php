@@ -26,6 +26,7 @@ class Order extends Model
         'gratuity_amount',
         'total_amount',
         'status_id',
+        'payment_status_id',
         'source_id',
         'coupon_id',
         'shipping_method_id',
@@ -60,6 +61,11 @@ class Order extends Model
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function paymentStatus(): BelongsTo
+    {
+        return $this->belongsTo(PaymentStatus::class);
     }
 
     public function coupon(): BelongsTo

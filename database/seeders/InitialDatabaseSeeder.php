@@ -12,6 +12,7 @@ class InitialDatabaseSeeder extends Seeder
         $this->call([
             Initial\UserSeeder::class,
             Initial\OrderStatusSeeder::class,
+            Initial\OrderPaymentSatusSeeder::class,
         ]);
     }
 }

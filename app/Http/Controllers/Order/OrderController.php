@@ -18,7 +18,7 @@ class OrderController extends Controller
         $page = (int) $request->input('page') ?? 1;
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
 
-        $orders = Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source'])
+        $orders = Order::with(['status', 'paymentStatus', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source'])
                         ->paginate($pageSize, ['*'], 'page', $page);
 
         return [
@@ -145,12 +145,12 @@ class OrderController extends Controller
             $order->save();
         }
 
-        return $order->load(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source']);
+        return $order->load(['status', 'paymentStatus', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source']);
     }
 
     public function show(Request $request, string $id)
     {
-        return Order::with(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source'])
+        return Order::with(['status', 'paymentStatus', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source'])
                     ->findOrFail($id);
     }
 
@@ -265,7 +265,7 @@ class OrderController extends Controller
         $order->products()->sync($products);
         $order->billets()->sync($billets);
 
-        return $order->load(['status', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source']);
+        return $order->load(['status', 'paymentStatus', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source']);
     }
 
     public function destroy(string $id)
