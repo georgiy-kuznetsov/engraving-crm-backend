@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('avatar_large')->nullable();
             $table->string('avatar_small')->nullable();
-
+            
+            $table->enum('role', ['owner', 'admin', 'manager', 'user'])->default('user');
             $table->boolean('active')->default(false);
-            $table->boolean('is_owner')->default(false);
 
             $table->rememberToken();
             $table->timestamps();
