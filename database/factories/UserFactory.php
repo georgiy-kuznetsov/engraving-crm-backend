@@ -23,8 +23,8 @@ class UserFactory extends Factory
             'avatar_large' => null,
             'avatar_small' => null,
 
+            'role' => array_rand(['owner', 'admin', 'manager', 'user'], 1),
             'active' => true,
-            'is_owner' => false,
 
             'remember_token' => Str::random(10),
         ];
