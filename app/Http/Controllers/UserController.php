@@ -123,4 +123,9 @@ class UserController extends Controller
     
         return $user->orders()->get();
     }
+
+    public function getGiftCertificates(int $userId) {
+        $user = User::findOrFail($userId);    
+        return $user->giftCertificates()->get();
+    }
 }

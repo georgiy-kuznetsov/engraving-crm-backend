@@ -4,6 +4,7 @@ namespace App\Models\Order;
 
 use App\Models\Billet;
 use App\Models\Customer;
+use App\Models\GiftCertificate;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +31,7 @@ class Order extends Model
         'payment_status_id',
         'source_id',
         'coupon_id',
+        'gift_certificate_id',
         'shipping_method_id',
         'payment_method_id',
         'user_id',
@@ -108,5 +110,10 @@ class Order extends Model
     public function receipts(): HasMany
     {
         return $this->hasMany(Receipts::class);
+    }
+
+    public function giftCertificate(): BelongsTo
+    {
+        return $this->belongsTo(GiftCertificate::class);
     }
 }

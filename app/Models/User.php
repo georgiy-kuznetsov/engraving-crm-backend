@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Customer::class);
     }
+
+    public function giftCertificates(): HasMany
+    {
+        return $this->hasMany(GiftCertificate::class);
+    }
 }

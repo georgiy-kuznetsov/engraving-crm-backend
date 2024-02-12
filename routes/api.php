@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Billet\BilletController;
 use App\Http\Controllers\Billet\BilletProductController;
+use App\Http\Controllers\GiftCertificateController;
 use App\Http\Controllers\Product\AttributeController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ProductController;
@@ -37,6 +38,7 @@ Route::prefix('users')->group( function () {
     Route::get('/{id}/billets', [UserController::class, 'getBillets']);
     Route::get('/{id}/customers', [UserController::class, 'getCustomers']);
     Route::get('/{id}/orders', [UserController::class, 'getOrders']);
+    Route::get('/{id}/gift-certificates', [UserController::class, 'getGiftCertificates']);
 });
 
 Route::get('/me', [ProfileController::class, 'index'])->middleware(['api', 'auth:sanctum']);
@@ -73,3 +75,5 @@ Route::get('/order-sources/{id}/orders', [SourceController::class, 'getOrders'])
 Route::apiResource('/shipping-methods', ShippingMethodController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/payment-methods', PaymentMethodController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
+
+Route::apiResource('/gift-certificates', GiftCertificateController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
