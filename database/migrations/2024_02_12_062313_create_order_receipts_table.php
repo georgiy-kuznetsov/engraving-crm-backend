@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('order_receipts', function (Blueprint $table) {
             $table->id();
             $table->string('link');
-            $table->emum('type', ['image', 'link']);
+            $table->enum('type', ['image', 'link']);
             $table->foreignId('order_id')
                     ->constrained()
                     ->cascadeOnDelete();
