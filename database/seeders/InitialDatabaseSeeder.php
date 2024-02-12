@@ -13,6 +13,7 @@ class InitialDatabaseSeeder extends Seeder
             Initial\UserSeeder::class,
             Initial\OrderStatusSeeder::class,
             Initial\OrderPaymentSatusSeeder::class,
+            Initial\OrderSourceSeeder::class,
         ]);
     }
 }
