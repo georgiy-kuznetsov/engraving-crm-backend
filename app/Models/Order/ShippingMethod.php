@@ -19,7 +19,7 @@ class ShippingMethod extends Model
         'index',
     ];
 
-    public function comments(): HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
