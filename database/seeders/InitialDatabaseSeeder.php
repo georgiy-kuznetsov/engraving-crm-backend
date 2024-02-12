@@ -15,6 +15,7 @@ class InitialDatabaseSeeder extends Seeder
             Initial\OrderPaymentSatusSeeder::class,
             Initial\OrderSourceSeeder::class,
             Initial\ShippingMethodSeeder::class,
+            Initial\OrderPaymentMethodSeeder::class,
         ]);
     }
 }
