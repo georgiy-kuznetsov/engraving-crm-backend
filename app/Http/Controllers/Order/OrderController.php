@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
 use App\Models\Billet;
-use App\Models\Order\Coupon;
+use App\Models\Coupon;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
 use Carbon\Carbon;
