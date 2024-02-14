@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Initial;
 
-use App\Models\Order\PaymentMethod;
+use App\Models\PaymentMethod;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
