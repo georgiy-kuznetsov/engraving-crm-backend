@@ -16,7 +16,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ShippingMethodController;
 use App\Http\Controllers\Order\OrderController;
-use App\Http\Controllers\Order\PaymentStatusController as OrderPaymentStatusController;
+use App\Http\Controllers\PaymentStatusController;
 use App\Http\Controllers\OrderSourceController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\Profile\ProfileController;
@@ -67,7 +67,7 @@ Route::apiResource('/coupons', CouponController::class)->only(['index', 'store',
 
 Route::apiResource('/order-statuses', OrderStatusController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
-Route::apiResource('/order-payment-statuses', OrderPaymentStatusController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
+Route::apiResource('/order-payment-statuses', PaymentStatusController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/order-sources', OrderSourceController::class)->only(['index', 'store', 'show', 'destroy'])->middleware(['api', 'auth:sanctum']);
 Route::get('/order-sources/{id}/orders', [OrderSourceController::class, 'getOrders'])->middleware(['api', 'auth:sanctum']);

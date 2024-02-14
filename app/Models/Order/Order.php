@@ -9,6 +9,7 @@ use App\Models\GiftCertificate;
 use App\Models\OrderSource;
 use App\Models\OrderStatus;
 use App\Models\PaymentMethod;
+use App\Models\PaymentStatus;
 use App\Models\Product\Product;
 use App\Models\Receipts;
 use App\Models\ShippingMethod;
