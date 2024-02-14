@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Order;
+namespace Database\Factories;
 
-use App\Models\Order\Status;
+use App\Models\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class StatusFactory extends Factory
+class OrderStatusFactory extends Factory
 {
-    protected $model = Status::class;
+    protected $model = OrderStatus::class;
     public function definition(): array
     {
         $index = fake()->numberBetween(1, 10);

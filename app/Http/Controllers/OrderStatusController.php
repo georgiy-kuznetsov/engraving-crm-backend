@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Order\Status;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 
-class StatusController extends Controller
+class OrderStatusController extends Controller
 {
     public function index()
     {
-        $status = Status::all();
+        $status = OrderStatus::all();
         return $status;
     }
 
@@ -22,14 +21,14 @@ class StatusController extends Controller
             'index' => ['nullable', 'integer', 'min:0'],
         ]);
 
-        $status = Status::create($validatedData);
+        $status = OrderStatus::create($validatedData);
 
         return $status;
     }
 
     public function show(string $id)
     {
-        if (! $status = Status::find($id)) {
+        if (! $status = OrderStatus::find($id)) {
             // return $this->sendErrorResponse(['Status not found'], 404);
         };
         return $status;
@@ -37,7 +36,7 @@ class StatusController extends Controller
 
     public function destroy(string $id)
     {
-        if ( ! $status = Status::find($id) ) {
+        if ( ! $status = OrderStatus::find($id) ) {
             return response()->json([], 204);
         };
 

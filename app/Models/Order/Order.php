@@ -5,6 +5,7 @@ namespace App\Models\Order;
 use App\Models\Billet;
 use App\Models\Customer;
 use App\Models\GiftCertificate;
+use App\Models\OrderStatus;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -63,7 +64,7 @@ class Order extends Model
 
     public function status(): BelongsTo
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(OrderStatus::class);
     }
 
     public function paymentStatus(): BelongsTo

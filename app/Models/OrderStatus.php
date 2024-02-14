@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models\Order;
+namespace App\Models;
 
+use App\Models\Order\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Status extends Model
+class OrderStatus extends Model
 {
     use HasFactory, SoftDeletes;
 

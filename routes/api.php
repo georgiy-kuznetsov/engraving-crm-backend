@@ -18,7 +18,7 @@ use App\Http\Controllers\Order\ShippingMethodController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\PaymentStatusController as OrderPaymentStatusController;
 use App\Http\Controllers\Order\SourceController;
-use App\Http\Controllers\Order\StatusController as OrderStatusController;
+use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
