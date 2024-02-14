@@ -5,6 +5,7 @@ namespace App\Models\Order;
 use App\Models\Billet;
 use App\Models\Customer;
 use App\Models\GiftCertificate;
+use App\Models\OrderSource;
 use App\Models\OrderStatus;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -89,7 +90,7 @@ class Order extends Model
 
     public function source(): BelongsTo
     {
-        return $this->belongsTo(Source::class, 'source_id');
+        return $this->belongsTo(OrderSource::class, 'source_id');
     }
 
     public function products(): BelongsToMany

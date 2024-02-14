@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order\Source;
+use App\Models\OrderSource;
 use Illuminate\Http\Request;
 
-class SourceController extends Controller
+class OrderSourceController extends Controller
 {
     public function index()
     {
-        return Source::all();
+        return OrderSource::all();
     }
 
     public function store(Request $request)
@@ -21,19 +21,19 @@ class SourceController extends Controller
             'index' => ['nullable', 'integer', 'min:0'],
         ]);
 
-        $status = Source::create($validatedData);
+        $status = OrderSource::create($validatedData);
 
         return $status;
     }
 
     public function show(string $id)
     {
-        return Source::findOrFail($id);
+        return OrderSource::findOrFail($id);
     }
 
     public function destroy(string $id)
     {
-        if ( ! $source = Source::find($id) ) {
+        if ( ! $source = OrderSource::find($id) ) {
             return response()->json([], 204);
         };
 
@@ -43,6 +43,6 @@ class SourceController extends Controller
 
     public function getOrders(int $id)
     {
-        return Source::findOrFail($id)->orders;
+        return OrderSource::findOrFail($id)->orders;
     }
 }

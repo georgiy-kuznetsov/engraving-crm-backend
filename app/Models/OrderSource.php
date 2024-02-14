@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models\Order;
+namespace App\Models;
 
+use App\Models\Order\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Source extends Model
+class OrderSource extends Model
 {
     use HasFactory;
 

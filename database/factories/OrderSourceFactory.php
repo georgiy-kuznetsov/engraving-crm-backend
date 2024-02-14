@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories\Order;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SourceFactory extends Factory
+class OrderSourceFactory extends Factory
 {
     public function definition(): array
     {
