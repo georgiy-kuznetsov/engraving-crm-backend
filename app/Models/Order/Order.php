@@ -9,6 +9,7 @@ use App\Models\OrderSource;
 use App\Models\OrderStatus;
 use App\Models\Product\Product;
 use App\Models\Receipts;
+use App\Models\ShippingMethod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

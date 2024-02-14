@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Order;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order\ShippingMethod;
+use App\Models\ShippingMethod;
 use Illuminate\Http\Request;
 
 class ShippingMethodController extends Controller

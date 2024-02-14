@@ -14,7 +14,7 @@ use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Order\CouponController;
 use App\Http\Controllers\Order\PaymentMethodController;
-use App\Http\Controllers\Order\ShippingMethodController;
+use App\Http\Controllers\ShippingMethodController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\PaymentStatusController as OrderPaymentStatusController;
 use App\Http\Controllers\OrderSourceController;
