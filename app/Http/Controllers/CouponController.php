@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order\Coupon;
+use App\Models\Coupon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

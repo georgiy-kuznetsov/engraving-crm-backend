@@ -3,6 +3,7 @@
 namespace App\Models\Order;
 
 use App\Models\Billet;
+use App\Models\Coupon;
 use App\Models\Customer;
 use App\Models\GiftCertificate;
 use App\Models\OrderSource;

@@ -12,7 +12,7 @@ use App\Http\Controllers\GiftCertificateController;
 use App\Http\Controllers\Product\AttributeController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ProductController;
-use App\Http\Controllers\Order\CouponController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Order\PaymentMethodController;
 use App\Http\Controllers\ShippingMethodController;
 use App\Http\Controllers\Order\OrderController;
