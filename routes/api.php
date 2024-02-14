@@ -13,7 +13,7 @@ use App\Http\Controllers\Product\AttributeController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\CouponController;
-use App\Http\Controllers\Order\PaymentMethodController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ShippingMethodController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\PaymentStatusController as OrderPaymentStatusController;
