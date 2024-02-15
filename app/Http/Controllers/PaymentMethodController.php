@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentMethodRequest;
 use App\Models\PaymentMethod;
-use Illuminate\Http\Request;
 
 class PaymentMethodController extends Controller
 {
@@ -14,13 +14,9 @@ class PaymentMethodController extends Controller
         return $paymentMethods;
     }
 
-    public function store(Request $request)
+    public function store(PaymentMethodRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'index' => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validatedData = $request->validated();
 
         $paymentMethod = PaymentMethod::create($validatedData);
 
