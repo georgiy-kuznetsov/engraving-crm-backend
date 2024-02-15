@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Billet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Billet\StoreRequest;
 use App\Models\Billet;
 use Illuminate\Http\Request;
 
@@ -23,16 +24,9 @@ class BilletController extends Controller
         ];
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'decimal:2', 'max:99999999.99'],
-            'description' => ['nullable', 'string'],
-            'sku' => ['nullable', 'string', 'max:255'],
-            'stock_quantity' => ['required', 'integer', 'min:0'],
-            'provider_id' => ['nullable', 'integer', 'exists:providers,id'],
-        ]);
+        $validatedData = $request->validated();
 
         $billet = Billet::create([
             ...$validatedData,
