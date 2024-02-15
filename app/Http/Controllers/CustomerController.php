@@ -39,21 +39,14 @@ class CustomerController extends Controller
         return $customer;
     }
 
-    public function show(string $id)
+    public function show(int $id)
     {
-        if (! $customer = Customer::find($id)) {
-            // return $this->sendErrorResponse(['Customer not found'], 404);
-        };
-        return $customer;
+        return Customer::findOrFail($id);
     }
 
-    public function update(UpdateRequest $request, string $id)
+    public function update(UpdateRequest $request, int $id)
     {
-        $customer = Customer::find($id);
-
-        if (!$customer) {
-            // return $this->sendErrorResponse(['Customer not found'], 404);
-        };
+        $customer = Customer::findOrFail($id);
 
         $validatedData = $request->validated();
 
@@ -62,7 +55,7 @@ class CustomerController extends Controller
         return $customer;
     }
 
-    public function destroy(string $customerId)
+    public function destroy(int $customerId)
     {
         if ( ! $customer = Customer::find($customerId) ) {
             return response()->json([], 204);
@@ -73,9 +66,7 @@ class CustomerController extends Controller
     }
 
     public function getOrders(int $id) {
-        if (! $customer = Customer::find($id)) {
-            // return $this->sendErrorResponse(['Customer not found'], 404);
-        };
+        $customer = Customer::findOrFail($id);
 
         $orders = $customer->orders()
                     ->with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
