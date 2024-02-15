@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderStatusRequest;
 use App\Models\OrderStatus;
-use Illuminate\Http\Request;
 
 class OrderStatusController extends Controller
 {
@@ -13,13 +13,9 @@ class OrderStatusController extends Controller
         return $status;
     }
 
-    public function store(Request $request)
+    public function store(OrderStatusRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'index' => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validatedData = $request->validated();
 
         $status = OrderStatus::create($validatedData);
 
