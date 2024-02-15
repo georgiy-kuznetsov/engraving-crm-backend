@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Provider\StoreRequest;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 
@@ -23,25 +24,9 @@ class ProviderController extends Controller
         ];
     }
     
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:providers'],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:providers'],
-
-            'country' => ['nullable', 'string', 'max:255'],
-            'region' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'adress' => ['nullable', 'string', 'max:255'],
-            'postcode' => ['nullable', 'int', 'max:100'],
-
-            'store_link' => ['nullable', 'string'],
-            'website' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'telegram' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'vkontakte' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'instagram' => ['nullable', 'string', 'unique:providers', 'max:256'],
-        ]);
+        $validatedData = $request->validated();
 
         $userId = $request->user()->id;
 
