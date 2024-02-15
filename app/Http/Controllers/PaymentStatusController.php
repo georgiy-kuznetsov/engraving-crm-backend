@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentStatusRequest;
 use App\Models\PaymentStatus;
-use Illuminate\Http\Request;
 
 class PaymentStatusController extends Controller
 {
@@ -13,13 +13,9 @@ class PaymentStatusController extends Controller
         return PaymentStatus::orderBy('index')->get();
     }
 
-    public function store(Request $request)
+    public function store(PaymentStatusRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'index' => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validatedData = $request->validated();
 
         return PaymentStatus::create($validatedData);
     }
