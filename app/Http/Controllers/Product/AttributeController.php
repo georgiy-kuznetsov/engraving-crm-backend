@@ -37,17 +37,12 @@ class AttributeController extends Controller
 
     public function show(string $id)
     {
-        if (! $attribute = Attribute::find($id)) {
-            // return $this->sendErrorResponse(['Attribute not found'], 404);
-        };
-        return $attribute;
+        return Attribute::findOrFail($id);
     }
 
     public function update(UpdateAttributeRequest $request, string $id)
     {
-        if (! $attribute = Attribute::find($id)) {
-            // return $this->sendErrorResponse(['Attribute not found'], 404);
-        };
+        $attribute = Attribute::findOrFail($id);
 
         $validatedData = $request->validated();
 
