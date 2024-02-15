@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Provider\StoreRequest;
+use App\Http\Requests\Provider\UpdateRequest;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 
@@ -61,31 +62,15 @@ class ProviderController extends Controller
         return $provider;
     }
     
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, string $id)
     {
+        $validatedData = $request->validated();
+
         $provider = Provider::find($id);
 
         if (!$provider) {
             // return $this->sendErrorResponse(['Provider not found'], 404);
         };
-
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:providers'],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:providers'],
-
-            'country' => ['nullable', 'string', 'max:255'],
-            'region' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'adress' => ['nullable', 'string', 'max:255'],
-            'postcode' => ['nullable', 'int', 'max:100'],
-
-            'store_link' => ['nullable', 'string'],
-            'website' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'telegram' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'vkontakte' => ['nullable', 'string', 'unique:providers', 'max:256'],
-            'instagram' => ['nullable', 'string', 'unique:providers', 'max:256'],
-        ]);
 
         $provider->update($validatedData);
 
