@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreCategoryRequest;
+use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Product\Category;
 use Illuminate\Http\Request;
 
@@ -33,16 +34,13 @@ class CategoryController extends Controller
         return $category;
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoryRequest $request, string $id)
     {
         if ( ! $category = Category::find($id) ) {
             // return $this->sendErrorResponse(['Category not found'], 404);
         };
 
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-        ]);
+        $validatedData = $request->validated();
 
         $category->update($validatedData);
 
