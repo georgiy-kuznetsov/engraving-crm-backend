@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateProductRequest $request, string $id)
     {
         $product = Product::with(['category', 'attributes', 'billets'])->find($id);
 
@@ -69,26 +70,7 @@ class ProductController extends Controller
             // return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'decimal:2', 'max:99999999.99'],
-            'sale_price' => ['nullable', 'decimal:2', 'max:99999999.99'],
-            'short_description' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-            'sku' => ['nullable', 'string', 'max:255'],
-            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
-            'onsale' => ['required', 'boolean'],
-
-            'billets' => ['nullable', 'array'],
-            'billets.*' => ['required', 'integer', 'exists:billets,id'],
-            'billet_quantity' => ['nullable', 'array'],
-            'billet_quantity.*' => ['required', 'integer'],
-
-            'attributes' => ['nullable', 'array'],
-            'attributes.*' => ['required', 'integer', 'exists:attributes,id'],
-            'attribute_value' => ['nullable', 'array'],
-            'attribute_value.*' => ['required', 'decimal:2', 'max:99999999.99'],
-        ]);
+        $validatedData = $request->validated();
 
         $billets = getArrForAttach($validatedData['billets'], $validatedData['billet_quantity'], 'quantity');
         $attributes = getArrForAttach($validatedData['attributes'], $validatedData['attribute_value'], 'value');
