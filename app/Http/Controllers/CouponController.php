@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CouponRequest;
 use App\Models\Coupon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,14 +17,9 @@ class CouponController extends Controller
         return $coupons;
     }
 
-    public function store(Request $request)
+    public function store(CouponRequest $request)
     {
-        $validatedData = $request->validate([
-            'promocode' => ['required', 'string', 'max:255', 'unique:coupons,promocode'],
-            'discount_size' => ['required', 'decimal:2', 'max:99999999.99'],
-            'type' => ['required', 'string', Rule::in( Coupon::getPossibleTypes() ), 'max:255'],
-            'expires_at' => ['required', 'date'],
-        ]);
+        $validatedData = $request->validated();
 
         $validatedData['expires_at'] = Carbon::parse($validatedData['expires_at']);
 
