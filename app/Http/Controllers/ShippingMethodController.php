@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ShippingMethodRequest;
 use App\Models\ShippingMethod;
-use Illuminate\Http\Request;
 
 class ShippingMethodController extends Controller
 {
@@ -14,13 +14,9 @@ class ShippingMethodController extends Controller
         return $shippingMethod;
     }
 
-    public function store(Request $request)
+    public function store(ShippingMethodRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'index' => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validatedData = $request->validated();
 
         $shippingMethod = ShippingMethod::create($validatedData);
 
