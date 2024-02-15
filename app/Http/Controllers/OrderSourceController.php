@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderSourceRequest;
 use App\Models\OrderSource;
-use Illuminate\Http\Request;
 
 class OrderSourceController extends Controller
 {
@@ -13,13 +13,9 @@ class OrderSourceController extends Controller
         return OrderSource::all();
     }
 
-    public function store(Request $request)
+    public function store(OrderSourceRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'index' => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validatedData = $request->validated();
 
         $status = OrderSource::create($validatedData);
 
