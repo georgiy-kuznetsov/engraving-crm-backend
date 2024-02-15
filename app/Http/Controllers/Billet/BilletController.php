@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Billet;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Billet\StoreRequest;
+use App\Http\Requests\Billet\UpdateRequest;
 use App\Models\Billet;
 use Illuminate\Http\Request;
 
@@ -46,20 +47,13 @@ class BilletController extends Controller
         return $billet;
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, string $id)
     {
         if ( ! $billet = Billet::find($id) ) {
             // return $this->sendErrorResponse(['Billet not found'], 404);
         };
 
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'decimal:2', 'max:99999999.99'],
-            'description' => ['nullable', 'string'],
-            'sku' => ['nullable', 'string', 'max:255'],
-            'stock_quantity' => ['required', 'integer', 'min:0'],
-            'provider_id' => ['nullable', 'integer', 'exists:providers,id'],
-        ]);
+        $validatedData = $request->validated();
 
         $billet->update($validatedData);
 
