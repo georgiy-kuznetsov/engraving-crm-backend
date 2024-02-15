@@ -13,8 +13,7 @@ class CouponController extends Controller
 {
     public function index()
     {
-        $coupons = Coupon::all();
-        return $coupons;
+        return Coupon::all();
     }
 
     public function store(CouponRequest $request)
@@ -31,16 +30,12 @@ class CouponController extends Controller
         return $coupon;
     }
 
-    public function show(string $id)
+    public function show(int $id)
     {
-        if ( ! $coupon = Coupon::find($id) ) {
-            // return $this->sendErrorResponse(['Coupon not found'], 404);
-        };
-        
-        return $coupon;
+        return Coupon::findOrFail($id);
     }
 
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         if ( ! $coupon = Coupon::find($id) ) {
             return response()->json([], 204);
