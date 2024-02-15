@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -55,15 +56,11 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(Request $request, $userId)
+    public function update(UpdateRequest $request, $userId)
     {
         $user = User::findOrFail($userId);
 
-        $validatedData = $request->validate([
-            'email' => ['sometimes', 'required', 'string', 'email', 'unique:users,email,' . $userId],
-            'last_name' => ['nullable', 'string', 'max:100'],
-            'first_name' => ['nullable', 'string', 'max:100'],
-        ]);
+        $validatedData = $request->validated();
     
         $user->update($validatedData);
 
