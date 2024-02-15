@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Exception;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -28,16 +26,9 @@ class UserController extends Controller
         ];
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validatedData = $request->validate([
-            'login' => ['required', 'unique:users', 'min:7', 'max:50'],
-            'email' => ['required', 'string', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'confirmed', 'min:6', 'max:50'],
-
-            'first_name' => ['nullable', 'string', 'max:100'],
-            'last_name' => ['nullable', 'string', 'max:100'],
-        ]);
+        $validatedData = $request->validated();
 
         $user = User::create([
             'login' => $validatedData['login'],
