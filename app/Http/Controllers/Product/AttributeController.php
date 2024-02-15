@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreAttributeRequest;
 use App\Models\Product\Attribute;
 use Illuminate\Http\Request;
 
@@ -24,17 +25,11 @@ class AttributeController extends Controller
         ];
     }
 
-    public function store(Request $request)
+    public function store(StoreAttributeRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:attributes'],
-            'unit' => ['nullable', 'string', 'max:255'],
-        ]);
+        $validatedData = $request->validated();
 
-        $attribute = Attribute::create([
-            'name' => $validatedData['name'],
-            'unit' => $validatedData['unit'],
-        ]);
+        $attribute = Attribute::create($validatedData);
 
         return $attribute;
     }
