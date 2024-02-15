@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\StoreRequest;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -23,26 +24,9 @@ class CustomerController extends Controller
         ];
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validatedData = $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['nullable', 'string', 'max:255'],
-            'email' => ['nullable', 'string', 'email', 'unique:customers', 'max:100'],
-            'phone' => ['nullable', 'string', 'max:255', 'unique:customers', 'max:100'],
-            
-            'country' => ['nullable', 'string', 'max:255'],
-            'region' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'adress' => ['nullable', 'string', 'max:255'],
-            'postcode' => ['nullable', 'string', 'max:20'],
-
-            'website' => ['nullable', 'string', 'unique:customers', 'max:256'],
-            'telegram' => ['nullable', 'string', 'unique:customers', 'max:256'],
-            'vkontakte' => ['nullable', 'string', 'unique:customers', 'max:256'],
-            'instagram' => ['nullable', 'string', 'unique:customers', 'max:256'],
-            'whatsapp' => ['nullable', 'string', 'unique:customers', 'max:256'],
-        ]);
+        $validatedData = $request->validated();
 
         $customer = Customer::create([
             ...$validatedData,
