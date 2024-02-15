@@ -3,19 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegistrationRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-    public function registration(Request $request) {
-        $validatedData = $request->validate([
-            'login' => ['required', 'unique:users', 'min:7', 'max:50'],
-            'email' => ['required', 'string', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'confirmed', 'min:6', 'max:50'],
-            'first_name' => ['nullable', 'string', 'max:100'],
-            'last_name' => ['nullable', 'string', 'max:100'],
-        ]);
+    public function registration(RegistrationRequest $request) {
+        $validatedData = $request->validated();
 
         $user = User::create([
             'login' => $validatedData['login'],
