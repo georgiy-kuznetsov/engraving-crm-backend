@@ -57,20 +57,14 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-        $product = Product::with(['category', 'attributes', 'billets'])->find($id);
-        
-        return $product;
+        return Product::with(['category', 'attributes', 'billets'])->findOrFail($id);
     }
 
     public function update(UpdateProductRequest $request, string $id)
     {
-        $product = Product::with(['category', 'attributes', 'billets'])->find($id);
-
-        if (!$product) {
-            // return $this->sendErrorResponse(['Billet not found'], 404);
-        };
-
         $validatedData = $request->validated();
+        
+        $product = Product::with(['category', 'attributes', 'billets'])->findOrFail($id);
 
         $billets = getArrForAttach($validatedData['billets'], $validatedData['billet_quantity'], 'quantity');
         $attributes = getArrForAttach($validatedData['attributes'], $validatedData['attribute_value'], 'value');
