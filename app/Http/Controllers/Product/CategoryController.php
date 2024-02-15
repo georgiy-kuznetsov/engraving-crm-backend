@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Product\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -27,18 +26,12 @@ class CategoryController extends Controller
 
     public function show(string $id)
     {
-        if ( ! $category = Category::find($id) ) {
-            // return $this->sendErrorResponse(['Category not found'], 404);
-        };
-        
-        return $category;
+        return Category::findOrFail($id);
     }
 
     public function update(UpdateCategoryRequest $request, string $id)
     {
-        if ( ! $category = Category::find($id) ) {
-            // return $this->sendErrorResponse(['Category not found'], 404);
-        };
+        $category = Category::findOrFail($id);
 
         $validatedData = $request->validated();
 
@@ -58,10 +51,7 @@ class CategoryController extends Controller
     }
 
     public function getProducts(string $id) {
-        if ( ! $category = Category::find($id) ) {
-            return $this->sendErrorResponse(['Category not found'], 404);
-        };
-
+        $category = Category::findOrFail($id);
         return $this->sendSuccessResponse($category->products, 200);
     }
 }
