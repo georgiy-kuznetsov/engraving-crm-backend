@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GiftCertificateRequest;
 use App\Models\GiftCertificate;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class GiftCertificateController extends Controller
 {
@@ -13,13 +13,9 @@ class GiftCertificateController extends Controller
         return GiftCertificate::all();
     }
 
-    public function store(Request $request)
+    public function store(GiftCertificateRequest $request)
     {
-        $validatedData = $request->validate([
-            'number' => ['nullable', 'string', 'max:255', 'unique:girt_certificates,number'],
-            'balance' => ['required', 'decimal:2', 'max:99999999.99'],
-            'expires_at' => ['required', 'date'],
-        ]);
+        $validatedData = $request->validated();
 
         $validatedData['expires_at'] = Carbon::parse($validatedData['expires_at']);
 
