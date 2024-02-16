@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Order;
+namespace Database\Factories;
 
 use App\Models\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
