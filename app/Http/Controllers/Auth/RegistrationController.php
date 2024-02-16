@@ -5,26 +5,20 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegistrationRequest;
 use App\Models\User;
+use App\Service\Auth\RegistrationService;
 
 class RegistrationController extends Controller
 {
+    protected $service;
+
+    public function __construct(RegistrationService $service) {
+        $this->service = $service;
+    }
+    
     public function registration(RegistrationRequest $request) {
         $validatedData = $request->validated();
-
-        $user = User::create([
-            'login' => $validatedData['login'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt( $validatedData['password'] ),
-
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-            'avatar_large' => null,
-            'avatar_small' => null,
-
-            'is_owner' => false,
-            'active' => false,
-        ]);
-
-        return [ 'token' => $user->createToken('api-token')->plainTextToken ];
+        return [
+            'token' => $this->service->registration($validatedData),
+        ];
     }
 }
