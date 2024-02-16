@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Service\Auth\LogoutService;
 use Illuminate\Http\Request;
 
 class LogoutController extends Controller
 {
+    protected $service;
+
+    public function __construct(LogoutService $service) {
+        $this->service = $service;
+    }
     public function logout(Request $request) {
-        $request->user()->currentAccessToken()->delete();
-        
-        $request->attributes->set('message', 'Выход выполнен успешно.');
+        $this->service->logout($request);
         return [];
     }
 }
