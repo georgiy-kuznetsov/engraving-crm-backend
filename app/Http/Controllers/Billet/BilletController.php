@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Billet\StoreRequest;
 use App\Http\Requests\Billet\UpdateRequest;
 use App\Models\Billet;
+use App\Service\Billet\BilletService;
 use Illuminate\Http\Request;
 
 class BilletController extends Controller
 {
+    protected $service;
+
+    public function __construct(BilletService $service) {
+        $this->service = $service;
+    }
+
     public function index(Request $request)
     {
         $page = (int) $request->input('page') ?? 1;
@@ -28,36 +35,18 @@ class BilletController extends Controller
     public function store(StoreRequest $request)
     {
         $validatedData = $request->validated();
-
-        $billet = Billet::create([
-            ...$validatedData,
-            'user_id' => $request->user()->id,
-            'photo' => null,
-        ]);
-
-        return response()->json($billet, 201);
+        return $this->service->store($request, $validatedData);
     }
 
     public function show(string $id)
     {
-        if ( ! $billet = Billet::find($id) ) {
-            // return $this->sendErrorResponse(['Billet not found'], 404);
-        };
-        
-        return $billet;
+        return Billet::findOrFail($id);
     }
 
-    public function update(UpdateRequest $request, string $id)
+    public function update(UpdateRequest $request, int $id)
     {
-        if ( ! $billet = Billet::find($id) ) {
-            // return $this->sendErrorResponse(['Billet not found'], 404);
-        };
-
         $validatedData = $request->validated();
-
-        $billet->update($validatedData);
-
-        return $billet;
+        return $this->service->update($validatedData, $id);
     }
 
     public function destroy(string $id)
