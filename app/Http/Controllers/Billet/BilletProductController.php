@@ -10,14 +10,7 @@ class BilletProductController extends Controller
 {
     public function index(Request $request, $billetId)
     {
-        $billet = Billet::find($billetId);
-
-        if (! $billet) {
-            // return $this->sendErrorResponse(['Billet not found'], 404);
-        };
-
-        $products = $billet->products;
-
-        return $products;
+        $billet = Billet::findOrFail($billetId);
+        return $billet->products;
     }
 }
