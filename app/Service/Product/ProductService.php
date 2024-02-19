@@ -3,6 +3,7 @@ namespace App\Service\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product\Product;
 
 class ProductService extends Controller {
@@ -23,6 +24,29 @@ class ProductService extends Controller {
             'photo' => null,
             'user_id' => $request->user()->id,
         ]);
+
+        $product->attributes()->attach($attributes);
+        $product->billets()->attach($billets);
+        $product->fresh();
+
+        return $product->load(['category', 'attributes', 'billets']);
+    }
+
+    public function update(UpdateProductRequest $request, array $data, int $id): Product
+    {
+        $product = Product::with(['category', 'attributes', 'billets'])->findOrFail($id);
+
+        $billets = $this->getArrForAttach($data['billets'], $data['billet_quantity'], 'quantity');
+        $attributes = $this->getArrForAttach($data['attributes'], $data['attribute_value'], 'value');
+
+        unset(
+            $data['billets'],
+            $data['attributes'],
+            $data['billet_quantity'],
+            $data['attribute_value'],
+        );
+
+        $product->update($data);
 
         $product->attributes()->attach($attributes);
         $product->billets()->attach($billets);

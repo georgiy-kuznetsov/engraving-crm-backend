@@ -45,29 +45,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, string $id)
     {
-        $validatedData = $request->validated();
-
-        $product = Product::with(['category', 'attributes', 'billets'])->findOrFail($id);
-
-        $billets = getArrForAttach($validatedData['billets'], $validatedData['billet_quantity'], 'quantity');
-        $attributes = getArrForAttach($validatedData['attributes'], $validatedData['attribute_value'], 'value');
-
-        unset(
-            $validatedData['billets'],
-            $validatedData['attributes'],
-            $validatedData['billet_quantity'],
-            $validatedData['attribute_value'],
-        );
-
-        $product->update($validatedData);
-
-        $product->attributes()->attach($attributes);
-        $product->billets()->attach($billets);
-        $product->fresh();
-
-        return response()->json(
-            $product->load(['category', 'attributes', 'billets'])
-        );
+        return $this->service->update($request, $request->validated(), $id);
     }
 
     public function destroy(string $id)
@@ -79,11 +57,4 @@ class ProductController extends Controller
         $product->delete();
         return response()->json([], 204);
     }
-}
-
-function getArrForAttach(array $items, array $pivotValues, string $pivotKey) {
-    $pivots = array_map( function($pivotValue) use ($pivotKey) {
-        return [$pivotKey => $pivotValue];
-    }, $pivotValues);
-    return array_combine($items, $pivots);
 }
