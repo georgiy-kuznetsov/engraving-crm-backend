@@ -29,10 +29,7 @@ class AttributeController extends Controller
     public function store(StoreAttributeRequest $request)
     {
         $validatedData = $request->validated();
-
-        $attribute = Attribute::create($validatedData);
-
-        return $attribute;
+        return Attribute::create($validatedData);
     }
 
     public function show(string $id)
@@ -43,10 +40,7 @@ class AttributeController extends Controller
     public function update(UpdateAttributeRequest $request, string $id)
     {
         $attribute = Attribute::findOrFail($id);
-
-        $validatedData = $request->validated();
-
-        $attribute->update($validatedData);
+        $attribute->update( $request->validated() );
         return $attribute;
     }
 
