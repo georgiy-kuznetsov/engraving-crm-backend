@@ -11,17 +11,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
-        return $categories;
+        return Category::all();
     }
 
     public function store(StoreCategoryRequest $request)
     {
         $validatedData = $request->validated();
-
-        $category = Category::create($validatedData);
-
-        return $category;
+        return Category::create($validatedData);
     }
 
     public function show(string $id)
@@ -52,6 +48,6 @@ class CategoryController extends Controller
 
     public function getProducts(string $id) {
         $category = Category::findOrFail($id);
-        return $this->sendSuccessResponse($category->products, 200);
+        return $category->products;
     }
 }
