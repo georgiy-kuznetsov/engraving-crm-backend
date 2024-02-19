@@ -5,10 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Provider\StoreRequest;
 use App\Http\Requests\Provider\UpdateRequest;
 use App\Models\Provider;
+use App\Services\ProviderService;
 use Illuminate\Http\Request;
 
 class ProviderController extends Controller
 {
+    protected $service;
+
+    public function __construct(ProviderService $service) {
+        $this->service = $service;
+    }
+
     public function index(Request $request)
     {
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
@@ -24,74 +31,32 @@ class ProviderController extends Controller
             'items' => $providers->items(),
         ];
     }
-    
+
     public function store(StoreRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $userId = $request->user()->id;
-
-        $provider = Provider::create([
-            'name' => $validatedData['name'],
-            'phone' => $validatedData['phone'],
-            'email' => $validatedData['email'],
-
-            'country' => $validatedData['country'],
-            'region' => $validatedData['region'],
-            'city' => $validatedData['city'],
-            'adress' => $validatedData['adress'],
-            'postcode' => $validatedData['postcode'],
-
-            'store_link' => $validatedData['store_link'],
-            'website' => $validatedData['website'],
-            'telegram' => $validatedData['telegram'],
-            'vkontakte' => $validatedData['vkontakte'],
-            'instagram' => $validatedData['instagram'],
-
-            'user_id' => $userId,
-        ]);
-
-        return $provider;
+        return $this->service->store( $request, $request->validated() );
     }
-    
-    public function show(Request $request, string $id)
+
+    public function show(int $id)
     {
-        if (! $provider = Provider::find($id)) {
-            // return $this->sendErrorResponse(['Provider not found'], 404);
-        };
-        return $provider;
+        return Provider::findOrFail($id);
     }
-    
+
     public function update(UpdateRequest $request, string $id)
     {
-        $validatedData = $request->validated();
-
-        $provider = Provider::find($id);
-
-        if (!$provider) {
-            // return $this->sendErrorResponse(['Provider not found'], 404);
-        };
-
-        $provider->update($validatedData);
-
-        return $provider;
+        return $this->service->update( $request->validated(), $id );
     }
-    
-    public function destroy(string $id)
-    {
-        if ( ! $provider = Provider::find($id) ) {
-            return response()->json([], 204);
-        };
 
-        $provider->delete();
+    public function destroy(int $id)
+    {
+        if ( $provider = Provider::find($id) ) {
+            $provider->delete();
+        };
         return response()->json([], 204);
     }
-    
-    public function getBillets(string $providerId) {
-        if (! $provider = Provider::find($providerId)) {
-            // return $this->sendErrorResponse(['Provider not found'], 404);
-        };
-    
+
+    public function getBillets(int $providerId) {
+        $provider = Provider::findOrFail($providerId);
         return $provider->billets()->get();
     }
 }
