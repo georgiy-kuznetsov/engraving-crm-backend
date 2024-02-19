@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Product\Category;
+use App\Service\Product\CategoryService;
 
 class CategoryController extends Controller
 {
+    protected $service;
+
+    public function __construct(CategoryService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
         return Category::all();
@@ -16,8 +24,7 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        $validatedData = $request->validated();
-        return Category::create($validatedData);
+        return $this->service->store( $request->validated() );
     }
 
     public function show(string $id)
