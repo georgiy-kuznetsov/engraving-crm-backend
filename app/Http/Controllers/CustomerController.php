@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Customer\StoreRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Customer;
-use App\Models\Order;
+use App\Service\CustomerService;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    protected $service;
+
+    public function __construct(CustomerService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index(Request $request)
     {
         $page = (int) $request->input('page') ?? 1;
@@ -27,16 +34,7 @@ class CustomerController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $customer = Customer::create([
-            ...$validatedData,
-            'user_id' => $request->user()->id,
-            'is_banned' => false,
-            'is_regular' => false,
-        ]);
-
-        return $customer;
+        return $this->service->store( $request, $request->validated() );
     }
 
     public function show(int $id)
@@ -46,13 +44,7 @@ class CustomerController extends Controller
 
     public function update(UpdateRequest $request, int $id)
     {
-        $customer = Customer::findOrFail($id);
-
-        $validatedData = $request->validated();
-
-        $customer->update($validatedData);
-
-        return $customer;
+        return $this->service->update($request->validated(), $id);
     }
 
     public function destroy(int $customerId)
