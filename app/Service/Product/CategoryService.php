@@ -10,4 +10,11 @@ class CategoryService extends Controller {
     {
         return Category::create($data);
     }
+
+    public function update(array $data, int $id): Category
+    {
+        $category = Category::findOrFail($id);
+        $category->update($data);
+        return $category;
+    }
 }

@@ -32,15 +32,9 @@ class CategoryController extends Controller
         return Category::findOrFail($id);
     }
 
-    public function update(UpdateCategoryRequest $request, string $id)
+    public function update(UpdateCategoryRequest $request, int $id)
     {
-        $category = Category::findOrFail($id);
-
-        $validatedData = $request->validated();
-
-        $category->update($validatedData);
-
-        return $category;
+        return $this->service->update($request->validated(), $id);
     }
 
     public function destroy(string $id)
