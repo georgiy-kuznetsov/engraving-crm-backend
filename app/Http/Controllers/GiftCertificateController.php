@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GiftCertificateRequest;
 use App\Models\GiftCertificate;
-use Carbon\Carbon;
+use App\Services\GiftCertificateService;
 
 class GiftCertificateController extends Controller
 {
+    protected $service;
+
+    public function __construct(GiftCertificateService $service) {
+        $this->service = $service;
+    }
+
     public function index()
     {
         return GiftCertificate::all();
@@ -15,21 +21,7 @@ class GiftCertificateController extends Controller
 
     public function store(GiftCertificateRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $validatedData['expires_at'] = Carbon::parse($validatedData['expires_at']);
-
-        $giftCertificate = GiftCertificate::create([
-            ...$validatedData,
-            'user_id' => $request->user()->id,
-        ]);
-
-        if ( ! $giftCertificate->number) {
-            $giftCertificate->number = $giftCertificate->getNumber();
-            $giftCertificate->save();
-        }
-
-        return $giftCertificate;
+        return $this->service->store( $request, $request->validated() );
     }
 
     public function show(int $id)
