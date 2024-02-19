@@ -10,34 +10,24 @@ class PaymentMethodController extends Controller
 {
     public function index()
     {
-        $paymentMethods = PaymentMethod::all();
-        return $paymentMethods;
+        return PaymentMethod::all();
     }
 
     public function store(PaymentMethodRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $paymentMethod = PaymentMethod::create($validatedData);
-
-        return $paymentMethod;
+        return PaymentMethod::create( $request->validated() );
     }
 
-    public function show(string $id)
+    public function show(int $id)
     {
-        if (! $paymentMethod = PaymentMethod::find($id)) {
-            // return $this->sendErrorResponse(['Payment method not found'], 404);
-        };
-        return $paymentMethod;
+        return PaymentMethod::findOrFail($id);
     }
 
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        if ( ! $paymentMethod = PaymentMethod::find($id) ) {
-            return response()->json([], 204);
+        if ( $paymentMethod = PaymentMethod::find($id) ) {
+            $paymentMethod->delete();
         };
-
-        $paymentMethod->delete();
         return response()->json([], 204);
     }
 }
