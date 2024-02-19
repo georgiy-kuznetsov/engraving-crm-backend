@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
+use App\Services\User\StoreService;
+use App\Services\User\UpdateService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected $storeService;
+    protected $updateService;
+
+    public function __construct(StoreService $storeService, UpdateService $updateService) {
+        $this->storeService = $storeService;
+        $this->updateService = $updateService;
+    }
+
     public function index(Request $request)
-    {  
+    {
         $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
         $page = (int) $request->input('page') ?? 1;
 
@@ -29,91 +39,54 @@ class UserController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $user = User::create([
-            'login' => $validatedData['login'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt( $validatedData['password'] ),
-
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-
-            'avatar_large' => null,
-            'avatar_small' => null,
-
-            'is_owner' => false,
-            'active' => false,
-        ]);
-
-        return $user;
+        return ( $this->storeService ) ( $request->validated() );
     }
 
     public function show(User $user)
     {
-        $user = User::find($user);
-
-        return $user;
+        return User::findOrFail($user);
     }
 
     public function update(UpdateRequest $request, $userId)
     {
-        $user = User::findOrFail($userId);
-
-        $validatedData = $request->validated();
-    
-        $user->update($validatedData);
-
-        return $validatedData;
+        return ( $this->updateService ) ( $request->validated(), $userId );
     }
 
-    public function destroy(User $user)
+    public function destroy(int $id)
     {
-        $user->delete();
-
+        if ( $user = User::find($id) ) {
+            $user->delete();
+        }
         return response()->json([], 204);
     }
 
     public function getProviders($userId) {
-        if (! $user = User::find($userId)) {
-            // return $this->sendErrorResponse(['User not found'], 404);
-        };
+        $user = User::findOrFail($userId);
         return $user->provider()->get();
     }
 
     public function getProducts($userId) {
-        if (! $user = User::find($userId)) {
-            // return $this->sendErrorResponse(['User not found'], 404);
-        };
+        $user = User::findOrFail($userId);
         return $user->product()->get();
     }
 
     public function getBillets($userId) {
-        if (! $user = User::find($userId)) {
-            // return $this->sendErrorResponse(['User not found'], 404);
-        };
-    
+        $user = User::findOrFail($userId);
         return $user->billet()->get();
     }
 
     public function getCustomers($userId) {
-        if (! $user = User::find($userId)) {
-            // return $this->sendErrorResponse(['User not found'], 404);
-        };
-    
+        $user = User::findOrFail($userId);
         return $user->customers()->get();
     }
 
     public function getOrders($userId) {
-        if (! $user = User::find($userId)) {
-            // return $this->sendErrorResponse(['User not found'], 404);
-        };
-    
+        $user = User::findOrFail($userId);
         return $user->orders()->get();
     }
 
     public function getGiftCertificates(int $userId) {
-        $user = User::findOrFail($userId);    
+        $user = User::findOrFail($userId);
         return $user->giftCertificates()->get();
     }
 }
