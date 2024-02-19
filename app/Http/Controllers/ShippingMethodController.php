@@ -10,34 +10,24 @@ class ShippingMethodController extends Controller
 {
     public function index()
     {
-        $shippingMethod = ShippingMethod::all();
-        return $shippingMethod;
+        return ShippingMethod::all();
     }
 
     public function store(ShippingMethodRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $shippingMethod = ShippingMethod::create($validatedData);
-
-        return $shippingMethod;
+        return ShippingMethod::create( $request->validated() );
     }
 
-    public function show(string $id)
+    public function show(int $id)
     {
-        if (! $shippingMethod = ShippingMethod::find($id)) {
-            // return $this->sendErrorResponse(['Shipping method not found'], 404);
-        };
-        return $shippingMethod;
+        return ShippingMethod::findOrFail($id);
     }
 
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        if ( ! $shippingMethod = ShippingMethod::find($id) ) {
-            return response()->json([], 204);
+        if ( $shippingMethod = ShippingMethod::find($id) ) {
+            $shippingMethod->delete();
         };
-
-        $shippingMethod->delete();
         return response()->json([], 204);
     }
 }
