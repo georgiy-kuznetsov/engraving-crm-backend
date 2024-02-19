@@ -15,11 +15,7 @@ class OrderSourceController extends Controller
 
     public function store(OrderSourceRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $status = OrderSource::create($validatedData);
-
-        return $status;
+        return OrderSource::create( $request->validated() );
     }
 
     public function show(string $id)
