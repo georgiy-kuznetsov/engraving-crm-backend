@@ -15,9 +15,7 @@ class PaymentStatusController extends Controller
 
     public function store(PaymentStatusRequest $request)
     {
-        $validatedData = $request->validated();
-
-        return PaymentStatus::create($validatedData);
+        return PaymentStatus::create( $request->validated() );
     }
 
     public function show(int $id)
@@ -27,11 +25,10 @@ class PaymentStatusController extends Controller
 
     public function destroy(int $id)
     {
-        if ( ! $paymentStatus = PaymentStatus::find($id) ) {
-            return response()->json([], 204);
+        if ( $paymentStatus = PaymentStatus::find($id) ) {
+            $paymentStatus->delete();
         };
 
-        $paymentStatus->delete();
         return response()->json([], 204);
     }
 }
