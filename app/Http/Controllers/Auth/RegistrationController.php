@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegistrationRequest;
-use App\Models\User;
-use App\Service\Auth\RegistrationService;
+use App\Services\Auth\RegistrationService;
 
 class RegistrationController extends Controller
 {
@@ -14,7 +13,7 @@ class RegistrationController extends Controller
     public function __construct(RegistrationService $service) {
         $this->service = $service;
     }
-    
+
     public function registration(RegistrationRequest $request) {
         $validatedData = $request->validated();
         return [

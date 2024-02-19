@@ -1,10 +1,8 @@
 <?php
-namespace App\Service\Profile;
+namespace App\Services\Profile;
 
 use App\Models\User;
-use App\Policies\Profile\ProfilePolicy;
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
 
 class ProfileService extends Controller
 {

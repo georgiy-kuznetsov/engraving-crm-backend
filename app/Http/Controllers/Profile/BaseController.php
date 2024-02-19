@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Service\Profile\ProfileService;
-use Illuminate\Http\Request;
+use App\Services\Profile\ProfileService;
 
 class BaseController extends Controller
 {

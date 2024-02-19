@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreRequest;
 use App\Http\Requests\Order\UpdateRequest;
 use App\Models\Order\Order;
-use App\Service\Order\StoreService;
-use App\Service\Order\UpdateService;
+use App\Services\Order\StoreService;
+use App\Services\Order\UpdateService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

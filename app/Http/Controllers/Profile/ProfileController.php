@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Profile\BaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateRequest;
 use App\Http\Resources\Profile\ProfileResource;
-use App\Service\Profile\ProfileService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends BaseController
 {

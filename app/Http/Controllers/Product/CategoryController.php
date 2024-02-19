@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Product\Category;
-use App\Service\Product\CategoryService;
+use App\Services\Product\CategoryService;
 
 class CategoryController extends Controller
 {

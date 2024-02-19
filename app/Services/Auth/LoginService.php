@@ -1,5 +1,5 @@
 <?php
-namespace App\Service\Auth;
+namespace App\Services\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -11,7 +11,7 @@ class LoginService extends Controller {
         if ( ! $user = User::where('login', $data['login'])->first() ) {
             $user = User::where('email', $data['login'])->first();
         }
-        
+
         if ( !$user || !Hash::check($data['password'], $user->password) ) {
             throw ValidationException::withMessages([
                 'login' => 'Invalid username or password.',

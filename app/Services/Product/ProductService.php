@@ -1,5 +1,5 @@
 <?php
-namespace App\Service\Product;
+namespace App\Services\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;

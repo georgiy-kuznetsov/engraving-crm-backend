@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Billet\StoreRequest;
 use App\Http\Requests\Billet\UpdateRequest;
 use App\Models\Billet;
-use App\Service\Billet\BilletService;
+use App\Services\Billet\BilletService;
 use Illuminate\Http\Request;
 
 class BilletController extends Controller

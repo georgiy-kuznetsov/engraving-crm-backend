@@ -1,8 +1,7 @@
 <?php
-namespace App\Service\Product;
+namespace App\Services\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Models\Product\Category;
 
 class CategoryService extends Controller {

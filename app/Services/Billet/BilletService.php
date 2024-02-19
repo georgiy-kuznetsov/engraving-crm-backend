@@ -1,5 +1,5 @@
 <?php
-namespace App\Service\Billet;
+namespace App\Services\Billet;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Billet\StoreRequest;

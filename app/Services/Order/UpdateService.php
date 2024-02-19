@@ -1,5 +1,5 @@
 <?php
-namespace App\Service\Order;
+namespace App\Services\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\UpdateRequest;
