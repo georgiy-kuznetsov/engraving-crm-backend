@@ -113,20 +113,4 @@ class UpdateService extends Controller {
                 ]);
     }
 
-    private function getArrForAttach(array $itemsIds, array $itemsQuantities, Collection $itemsModels): array
-    {
-        $pivots = [];
-        foreach ($itemsIds as $key => $productId) {
-            $product = $itemsModels->find($productId);
-            $pivots[$productId] = [
-                'name' => $product->name,
-                'photo' => $product->photo,
-                'price' => $product->price,
-                'sale_price' => $product->sale_price,
-                'onsale' => $product->onsale,
-                'quantity' => $itemsQuantities[$key],
-            ];
-        }
-        return $pivots;
-    }
 }
