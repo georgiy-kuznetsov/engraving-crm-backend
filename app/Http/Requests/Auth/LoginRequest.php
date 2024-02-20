@@ -18,4 +18,14 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'login.required' => 'Логин не может быть пустым',
+            'password.required' => 'Пароль не может быть пустым',
+            'password.string' => 'Пароль должен быть строкой',
+            'login.string' => 'Логин должен быть строкой',
+        ];
+    }
 }
