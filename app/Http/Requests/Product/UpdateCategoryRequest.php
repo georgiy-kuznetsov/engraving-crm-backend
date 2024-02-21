@@ -18,4 +18,15 @@ class UpdateCategoryRequest extends FormRequest
             'description' => ['nullable', 'string'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Поле обязательно для заполнения',
+            'name.string' => 'Поле должно быть строкой',
+            'name.max' => 'Имя должно быть не более 255 символов',
+            'name.unique' => 'Такая категория уже существует',
+            'description.string' => 'Поле должно быть строкой',
+        ];
+    }
 }
