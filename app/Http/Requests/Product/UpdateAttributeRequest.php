@@ -18,4 +18,12 @@ class UpdateAttributeRequest extends FormRequest
             'unit' => ['nullable', 'string', 'max:255'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Поле обязательно для заполнения',
+            'name.unique' => 'Такой атрибут уже существует',
+        ];
+    }
 }
