@@ -18,4 +18,16 @@ class StoreAttributeRequest extends FormRequest
             'unit' => ['nullable', 'string', 'max:255'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Имя атрибута не может быть пустым',
+            'name.unique' => 'Такой атрибут уже существует',
+            'name.string' => 'Поле должно быть строкой',
+            'name.max' => 'Максимальная длина 255 символов',
+            'unit.string' => 'Поле должно быть строкой',
+            'unit.max' => 'Максимальная длина 255 символов',
+        ];
+    }
 }
