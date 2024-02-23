@@ -10,7 +10,7 @@ class ProviderPolicy
 {
     public function viewAny(User $user): Response
     {
-        return ($user->role === 'user')
+        return ($user->role->guard_name === 'user')
                     ? Response::deny('У вас нет доступа для выполнения запроса')
                     : Response::allow();
     }
@@ -21,7 +21,7 @@ class ProviderPolicy
             return true;
         }
 
-        if ($user->role === 'owner' || $user->role === 'admin' || $user->role === 'manager') {
+        if ( in_array($user->role->guard_name, ['owner', 'admin', 'manager']) ) {
             return true;
         }
 

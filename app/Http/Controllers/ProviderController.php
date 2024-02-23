@@ -40,29 +40,30 @@ class ProviderController extends Controller
         return $this->service->store( $request, $request->validated() );
     }
 
-    public function show(int $id)
+    public function show(Provider $provider)
     {
-        $this->authorize('view', Provider::class);
-        return Provider::findOrFail($id);
+        $this->authorize('view', $provider);
+        return $provider;
     }
 
-    public function update(UpdateRequest $request, string $id)
+    public function update(UpdateRequest $request, Provider $provider)
     {
-        $this->authorize('update', Provider::class);
-        return $this->service->update( $request->validated(), $id );
+        $this->authorize('update', $provider);
+        return $this->service->update( $request->validated(), $provider );
     }
 
-    public function destroy(int $id)
+    public function destroy(Provider $provider)
     {
-        $this->authorize('delete', Provider::class);
-        if ( $provider = Provider::find($id) ) {
-            $provider->delete();
-        };
+        $this->authorize('delete', $provider);
+        $provider->delete();
         return response()->json([], 204);
     }
 
-    public function getBillets(int $providerId) {
-        $provider = Provider::findOrFail($providerId);
+    public function getBillets(int $id) {
+        $provider = Provider::findOrFail($id);
+
+        $this->authorize('view', $provider);
+
         return $provider->billets()->get();
     }
 }
