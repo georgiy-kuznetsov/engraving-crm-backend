@@ -12,7 +12,7 @@ return new class extends Migration
             $table->foreignId('role_id')
                     ->nullable()
                     ->after('active')
-                    ->default('2001')
+                    ->default('1')
                     ->references('id')
                     ->on('roles')
                     ->nullOnDelete();

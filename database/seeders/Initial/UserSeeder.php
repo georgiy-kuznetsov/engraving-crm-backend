@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'avatar_large' => null,
             'avatar_small' => null,
 
-            'role' => 'owner',
+            'role_id' => '4',
             'active' => true,
 
             'created_at' => Carbon::now(),

@@ -10,6 +10,7 @@ class InitialDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            Initial\RoleSeeder::class,
             Initial\UserSeeder::class,
             Initial\OrderStatusSeeder::class,
             Initial\OrderPaymentSatusSeeder::class,
