@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('avatar_large')->nullable();
             $table->string('avatar_small')->nullable();
             
-            $table->enum('role', ['owner', 'admin', 'manager', 'user'])->default('user');
             $table->boolean('active')->default(false);
 
             $table->rememberToken();
