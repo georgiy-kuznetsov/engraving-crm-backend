@@ -15,9 +15,8 @@ class ProviderService extends Controller {
         ]);
     }
 
-    public function update(array $data, int $id): Provider
+    public function update(array $data, Provider $provider): Provider
     {
-        $provider = Provider::findOrFail($id);
         $provider->update($data);
         return $provider->fresh();
     }
