@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, 
+    use HasApiTokens,
         HasFactory,
         Notifiable,
         SoftDeletes;
@@ -51,11 +52,16 @@ class User extends Authenticatable
     ];
 
 
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    
     public function provider(): hasMany
     {
         return $this->hasMany(Provider::class);
     }
-    
+
     public function billet(): hasMany
     {
         return $this->hasMany(Billet::class);
