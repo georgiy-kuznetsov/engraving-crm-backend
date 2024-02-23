@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Provider\IndexRequest;
 use App\Http\Requests\Provider\StoreRequest;
 use App\Http\Requests\Provider\UpdateRequest;
 use App\Models\Provider;
@@ -16,22 +17,10 @@ class ProviderController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
         $this->authorize('viewAny', Provider::class);
-
-        $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
-        $page = (int) $request->input('page') ?? 1;
-
-        $providers = Provider::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page );
-
-        return [
-            'currentPage' => $providers->currentPage(),
-            'lastPage' => $providers->lastPage(),
-            'pageSize' => $providers->perPage(),
-            'total' => $providers->total(),
-            'items' => $providers->items(),
-        ];
+        return $this->service->index( $request->validated() );
     }
 
     public function store(StoreRequest $request)
