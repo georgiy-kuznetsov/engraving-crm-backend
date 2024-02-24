@@ -16,25 +16,25 @@ class GiftCertificateController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', GiftCertificate::class);
         return GiftCertificate::all();
     }
 
     public function store(GiftCertificateRequest $request)
     {
+        $this->authorize('create', GiftCertificate::class);
         return $this->service->store( $request, $request->validated() );
     }
 
-    public function show(int $id)
+    public function show(GiftCertificate $giftCertificate)
     {
-        return GiftCertificate::findOrFail($id);
+        $this->authorize('view', $giftCertificate);
+        return $giftCertificate;
     }
 
-    public function destroy(int $id)
+    public function destroy(GiftCertificate $giftCertificate)
     {
-        if ( ! $giftCertificate = GiftCertificate::find($id) ) {
-            return response()->json([], 204);
-        };
-
+        $this->authorize('delete', $giftCertificate);
         $giftCertificate->delete();
         return response()->json([], 204);
     }
