@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Billet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Billet\IndexRequest;
 use App\Http\Requests\Billet\StoreRequest;
 use App\Http\Requests\Billet\UpdateRequest;
 use App\Models\Billet;
@@ -17,45 +18,34 @@ class BilletController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-        $page = (int) $request->input('page') ?? 1;
-        $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
-
-        $billetItems = Billet::paginate($pageSize, ['*'], 'page', $page);
-
-        return [
-            'page' => $billetItems->currentPage(),
-            'pageSize' => $billetItems->perPage(),
-            'total' => $billetItems->total(),
-            'items' => $billetItems->items(),
-        ];
+        $this->authorize('viewAny', Billet::class);
+        return $this->service->index( $request->validated() );
     }
 
     public function store(StoreRequest $request)
     {
-        $validatedData = $request->validated();
-        return $this->service->store($request, $validatedData);
+        $this->authorize('create', Billet::class);
+        return $this->service->store($request, $request->validated());
     }
 
-    public function show(string $id)
+    public function show(Billet $billet)
     {
-        return Billet::findOrFail($id);
+        $this->authorize('view', $billet);
+        return $billet;
     }
 
-    public function update(UpdateRequest $request, int $id)
+    public function update(UpdateRequest $request, Billet $billet)
     {
-        $validatedData = $request->validated();
-        return $this->service->update($validatedData, $id);
+        $this->authorize('update', $billet);
+        return $this->service->update($request->validated(), $billet);
     }
 
-    public function destroy(string $id)
+    public function destroy(Billet $billet)
     {
-        if ( ! $billet = Billet::find($id) ) {
-            return response()->json([], 200);
-        };
-
+        $this->authorize('delete', $billet);
         $billet->delete();
-        return response()->json([], 200);
+        return response()->json([], 204);
     }
 }
