@@ -30,10 +30,10 @@ class BilletService extends Controller {
         ]);
     }
 
-    public function update(array $data, int $id): Billet
+    public function update(array $data, Billet $billet): Billet
     {
-        $billet = Billet::findOrFail($id);
-        return $billet->update($data);
+        $billet->update($data);
+        return $billet->fresh();
     }
 
 
