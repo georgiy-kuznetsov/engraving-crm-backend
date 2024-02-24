@@ -4,7 +4,7 @@ namespace App\Services\User;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
-class StoreService extends Controller {
+class IndexService extends Controller {
     public function __invoke(array $data): array
     {
         $page = $data['page'] ?? 1;
