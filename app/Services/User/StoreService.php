@@ -17,11 +17,4 @@ class StoreService extends Controller {
             'active' => false,
         ]);
     }
-
-    public function update(array $data, int $id): User
-    {
-        $user = User::findOrFail($id);
-        $user->update( $data );
-        return $user->fresh();
-    }
 }
