@@ -24,7 +24,7 @@ class ProviderPolicy
         return false;
     }
 
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }
@@ -56,7 +56,7 @@ class ProviderPolicy
         if ($provider->user->id === $user->id) {
             return true;
         }
-        if ($user->role === 'owner' || $user->role === 'admin') {
+        if ($user->role->guard_name === 'owner' || $user->role->guard_name === 'admin') {
             return true;
         }
         return false;
@@ -64,7 +64,7 @@ class ProviderPolicy
 
     public function forceDelete(User $user, Provider $provider): bool
     {
-        return ($user->role === 'owner' || $user->role === 'admin')
+        return ($user->role->guard_name === 'owner' || $user->role->guard_name === 'admin')
                     ? true
                     : false;
     }
