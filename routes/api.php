@@ -51,7 +51,7 @@ Route::get('/providers/{id}/billets', [ProviderController::class, 'getBillets'])
 Route::apiResource('/products', ProductController::class)->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/billets', BilletController::class)->middleware(['api', 'auth:sanctum']);
-Route::get('/billets/{id}/products', [BilletProductController::class, 'index'])->middleware(['api', 'auth:sanctum']);
+Route::get('/billets/{id}/products', [BilletController::class, 'getProducts'])->middleware(['api', 'auth:sanctum']);
 
 Route::apiResource('/attributes', AttributeController::class)->middleware(['api', 'auth:sanctum']);
 

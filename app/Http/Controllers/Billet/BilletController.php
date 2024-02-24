@@ -48,4 +48,10 @@ class BilletController extends Controller
         $billet->delete();
         return response()->json([], 204);
     }
+
+    public function getProducts(Billet $billet)
+    {
+        $this->authorize('view', $billet);
+        return $billet->products;
+    }
 }
