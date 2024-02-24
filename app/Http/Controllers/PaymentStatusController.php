@@ -10,25 +10,26 @@ class PaymentStatusController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', PaymentStatus::class);
         return PaymentStatus::orderBy('index')->get();
     }
 
     public function store(PaymentStatusRequest $request)
     {
+        $this->authorize('create', PaymentStatus::class);
         return PaymentStatus::create( $request->validated() );
     }
 
-    public function show(int $id)
+    public function show(PaymentStatus $paymentStatus)
     {
-        return PaymentStatus::findOrFail($id);
+        $this->authorize('view', $paymentStatus);
+        return $paymentStatus;
     }
 
-    public function destroy(int $id)
+    public function destroy(PaymentStatus $paymentStatus)
     {
-        if ( $paymentStatus = PaymentStatus::find($id) ) {
-            $paymentStatus->delete();
-        };
-
+        $this->authorize('delete', $paymentStatus);
+        $paymentStatus->delete();
         return response()->json([], 204);
     }
 }
