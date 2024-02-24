@@ -10,31 +10,32 @@ class OrderSourceController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', OrderSource::class);
         return OrderSource::all();
     }
 
     public function store(OrderSourceRequest $request)
     {
+        $this->authorize('create', OrderSource::class);
         return OrderSource::create( $request->validated() );
     }
 
-    public function show(string $id)
+    public function show(OrderSource $orderSource)
     {
-        return OrderSource::findOrFail($id);
+        $this->authorize('view', $orderSource);
+        return $orderSource;
     }
 
-    public function destroy(string $id)
+    public function destroy(OrderSource $orderSource)
     {
-        if ( ! $source = OrderSource::find($id) ) {
-            return response()->json([], 204);
-        };
-
-        $source->delete();
+        $this->authorize('delete', $orderSource);
+        $orderSource->delete();
         return response()->json([], 204);
     }
 
-    public function getOrders(int $id)
+    public function getOrders(OrderSource $orderSource)
     {
-        return OrderSource::findOrFail($id)->orders;
+        $this->authorize('view', $orderSource);
+        return $orderSource->orders;
     }
 }
