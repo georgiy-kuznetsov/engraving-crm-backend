@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\IndexRequest;
 use App\Http\Requests\Customer\StoreRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Customer;
@@ -17,53 +18,41 @@ class CustomerController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-        $page = (int) $request->input('page') ?? 1;
-        $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
-
-        $customerItems = Customer::paginate($pageSize, ['*'], 'page', $page);
-
-        return [
-            'page' => $customerItems->currentPage(),
-            'pageSize' => $customerItems->perPage(),
-            'total' => $customerItems->total(),
-            'items' => $customerItems->items(),
-        ];
+        $this->authorize('viewAny', Customer::class);
+        return $this->service->index( $request->validated() );
     }
 
     public function store(StoreRequest $request)
     {
+        $this->authorize('create', Customer::class);
         return $this->service->store( $request, $request->validated() );
     }
 
     public function show(int $id)
     {
+        $this->authorize('view', Customer::class);
         return Customer::findOrFail($id);
     }
 
     public function update(UpdateRequest $request, int $id)
     {
+        $this->authorize('update', Customer::class);
         return $this->service->update($request->validated(), $id);
     }
 
-    public function destroy(int $customerId)
+    public function destroy(Customer $customer)
     {
-        if ( ! $customer = Customer::find($customerId) ) {
-            return response()->json([], 204);
-        };
-
+        $this->authorize('delete', $customer);
         $customer->delete();
         return response()->json([], 204);
     }
 
-    public function getOrders(int $id) {
-        $customer = Customer::findOrFail($id);
-
-        $orders = $customer->orders()
+    public function getOrders(Customer $customer) {
+        $this->authorize('view', $customer);
+        return $customer->orders()
                     ->with(['status', 'coupon', 'paymentMethod', 'shippingMethod'])
                     ->get();
-
-        return $orders;
     }
 }
