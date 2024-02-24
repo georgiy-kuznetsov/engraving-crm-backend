@@ -10,24 +10,26 @@ class PaymentMethodController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', PaymentMethod::class);
         return PaymentMethod::all();
     }
 
     public function store(PaymentMethodRequest $request)
     {
+        $this->authorize('create', PaymentMethod::class);
         return PaymentMethod::create( $request->validated() );
     }
 
-    public function show(int $id)
+    public function show(PaymentMethod $paymentMethod)
     {
-        return PaymentMethod::findOrFail($id);
+        $this->authorize('view', $paymentMethod);
+        return $paymentMethod;
     }
 
-    public function destroy(int $id)
+    public function destroy(PaymentMethod $paymentMethod)
     {
-        if ( $paymentMethod = PaymentMethod::find($id) ) {
-            $paymentMethod->delete();
-        };
+        $this->authorize('delete', $paymentMethod);
+        $paymentMethod->delete();
         return response()->json([], 204);
     }
 }
