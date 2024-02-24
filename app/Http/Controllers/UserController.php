@@ -2,91 +2,84 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
+use App\Services\User\IndexService;
 use App\Services\User\StoreService;
 use App\Services\User\UpdateService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected $indexService;
     protected $storeService;
     protected $updateService;
 
-    public function __construct(StoreService $storeService, UpdateService $updateService) {
+    public function __construct(IndexService $indexService, StoreService $storeService, UpdateService $updateService) {
+        $this->indexService = $indexService;
         $this->storeService = $storeService;
         $this->updateService = $updateService;
     }
 
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-        $pageSize = (int) $request->input('pageSize') ?? env('API_ITEMS_PER_PAGE');
-        $page = (int) $request->input('page') ?? 1;
-
-        $usersData = User::orderBy('id')->paginate( $pageSize, ['*'], 'page', $page );
-
-        return [
-            'users' => $usersData->items(),
-            'currentPage' => $usersData->currentPage(),
-            'lastPage' => $usersData->lastPage(),
-            'pageSize' => $usersData->perPage(),
-            'total' => $usersData->total(),
-            'nextPageUrl' => $usersData->nextPageUrl(),
-            'previousPageUrl' => $usersData->previousPageUrl(),
-        ];
+        $this->authorize('viewAny', User::class);
+        return ( $this->indexService ) ( $request->validated() );
     }
 
     public function store(StoreRequest $request)
     {
+        $this->authorize('create', User::class);
         return ( $this->storeService ) ( $request->validated() );
     }
 
     public function show(User $user)
     {
-        return User::findOrFail($user);
+        $this->authorize('view', $user);
+        return $user;
     }
 
-    public function update(UpdateRequest $request, $userId)
+    public function update(UpdateRequest $request, User $user)
     {
-        return ( $this->updateService ) ( $request->validated(), $userId );
+        $this->authorize('update', $user);
+        return ( $this->updateService ) ( $request->validated(), $user );
     }
 
-    public function destroy(int $id)
+    public function destroy(User $user)
     {
-        if ( $user = User::find($id) ) {
-            $user->delete();
-        }
+        $this->authorize('delete', $user);
+        $user->delete($user);
         return response()->json([], 204);
     }
 
-    public function getProviders($userId) {
-        $user = User::findOrFail($userId);
+    public function getProviders(User $user) {
+        $this->authorize('view', $user);
         return $user->provider()->get();
     }
 
-    public function getProducts($userId) {
-        $user = User::findOrFail($userId);
+    public function getProducts(User $user) {
+        $this->authorize('view', $user);
         return $user->product()->get();
     }
 
-    public function getBillets($userId) {
-        $user = User::findOrFail($userId);
+    public function getBillets(User $user) {
+        $this->authorize('view', $user);
         return $user->billet()->get();
     }
 
-    public function getCustomers($userId) {
-        $user = User::findOrFail($userId);
+    public function getCustomers(User $user) {
+        $this->authorize('view', $user);
         return $user->customers()->get();
     }
 
-    public function getOrders($userId) {
-        $user = User::findOrFail($userId);
+    public function getOrders(User $user) {
+        $this->authorize('view', $user);
         return $user->orders()->get();
     }
 
-    public function getGiftCertificates(int $userId) {
-        $user = User::findOrFail($userId);
+    public function getGiftCertificates(User $user) {
+        $this->authorize('view', $user);
         return $user->giftCertificates()->get();
     }
 }
