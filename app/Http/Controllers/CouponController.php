@@ -18,25 +18,25 @@ class CouponController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Coupon::class);
         return Coupon::all();
     }
 
     public function store(CouponRequest $request)
     {
+        $this->authorize('create', Coupon::class);
         return $this->service->store( $request, $request->validated() );
     }
 
     public function show(int $id)
     {
+        $this->authorize('view', Coupon::class);
         return Coupon::findOrFail($id);
     }
 
-    public function destroy(int $id)
+    public function destroy(Coupon $coupon)
     {
-        if ( ! $coupon = Coupon::find($id) ) {
-            return response()->json([], 204);
-        };
-
+        $this->authorize('delete', $coupon);
         $coupon->delete();
         return response()->json([], 204);
     }
