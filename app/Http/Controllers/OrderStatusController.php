@@ -9,24 +9,26 @@ class OrderStatusController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', OrderStatus::class);
         return OrderStatus::all();
     }
 
     public function store(OrderStatusRequest $request)
     {
+        $this->authorize('create', OrderStatus::class);
         return OrderStatus::create(  $request->validated());
     }
 
-    public function show(int $id)
+    public function show(OrderStatus $status)
     {
-        return OrderStatus::findOrFail($id);
+        $this->authorize('view', $status);
+        return $status;
     }
 
-    public function destroy(int $id)
+    public function destroy(OrderStatus $status)
     {
-        if ( $status = OrderStatus::find($id) ) {
-            $status->delete();
-        }
+        $this->authorize('delete', $status);
+        $status->delete();
         return response()->json([], 204);
     }
 }
