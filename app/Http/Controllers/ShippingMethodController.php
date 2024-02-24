@@ -10,24 +10,26 @@ class ShippingMethodController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', ShippingMethod::class);
         return ShippingMethod::all();
     }
 
     public function store(ShippingMethodRequest $request)
     {
+        $this->authorize('create', ShippingMethod::class);
         return ShippingMethod::create( $request->validated() );
     }
 
-    public function show(int $id)
+    public function show(ShippingMethod $shippingMethod)
     {
-        return ShippingMethod::findOrFail($id);
+        $this->authorize('view', $shippingMethod);
+        return $shippingMethod;
     }
 
-    public function destroy(int $id)
+    public function destroy(ShippingMethod $shippingMethod)
     {
-        if ( $shippingMethod = ShippingMethod::find($id) ) {
-            $shippingMethod->delete();
-        };
+        $this->authorize('delete', $shippingMethod);
+        $shippingMethod->delete();
         return response()->json([], 204);
     }
 }
