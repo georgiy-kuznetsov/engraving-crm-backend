@@ -16,22 +16,20 @@ class UpdateRequest extends FormRequest
         return [
             'shipping_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
             'gratuity_amount' => ['required', 'decimal:2', 'min: 0.00', 'max:99999999.99'],
-            'coupon_id' => ['nullable', 'integer', 'exists:coupons,id'],
+            'coupon' => ['nullable', 'string', 'exists:coupons,promocode'],
             'shipping_method_id' => ['nullable', 'integer', 'exists:shipping_methods,id'],
             'payment_method_id' => ['nullable', 'integer', 'exists:payment_methods,id'],
             'status_id' => ['nullable', 'integer', 'exists:order_statuses,id'],
             'source_id' => ['nullable', 'integer', 'exists:order_sources,id'],
             'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
-                        
+
             'products' => ['nullable', 'array'],
-            'products.*' => ['required', 'integer', 'exists:products,id'],
-            'products_quantity' => ['nullable', 'array'],
-            'products_quantity.*' => ['required', 'integer'],
-            
+            'products.*.id' => ['required', 'integer', 'exists:products,id'],
+            'products.*.quantity' => ['required', 'integer'],
+
             'billets' => ['nullable', 'array'],
-            'billets.*' => ['required', 'integer', 'exists:products,id'],
-            'billets_quantity' => ['nullable', 'array'],
-            'billets_quantity.*' => ['required', 'integer'],
+            'billets.*.id' => ['required', 'integer', 'exists:products,id'],
+            'billets.*.quantity' => ['required', 'integer'],
         ];
     }
 }
