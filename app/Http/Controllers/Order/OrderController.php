@@ -38,7 +38,7 @@ class OrderController extends Controller
 
     public function store(StoreRequest $request)
     {
-        return $this->storeService->store($request, $request->validated());
+        return $this->storeService->store($request->validated());
     }
 
     public function show(Request $request, string $id)
@@ -47,9 +47,9 @@ class OrderController extends Controller
                     ->findOrFail($id);
     }
 
-    public function update(UpdateRequest $request, int $id)
+    public function update(UpdateRequest $request, Order $order)
     {
-        return ($this->updateService)($request, $request->validated(), $id);
+        return ($this->updateService)($request, $order, $request->validated());
     }
 
     public function destroy(string $id)
