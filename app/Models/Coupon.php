@@ -13,7 +13,7 @@ class Coupon extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'coupons';
-    
+
     protected $fillable = [
         'promocode',
         'discount_size',
@@ -24,6 +24,10 @@ class Coupon extends Model
 
     protected $guarded = [
         'user_id',
+    ];
+
+    protected $casts = [
+        'expires_at' => 'date',
     ];
 
     public static function getPossibleTypes() {
