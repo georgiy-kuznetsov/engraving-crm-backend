@@ -3,94 +3,37 @@ namespace App\Services\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreRequest;
+use App\Models\Billet;
 use App\Models\Coupon;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
-use Carbon\Carbon;
 
 class StoreService extends Controller {
-    public function __invoke(StoreRequest $request, array $data): Order
+    public function store(StoreRequest $request, array $data): Order
     {
-        $productModels = Product::select(['id', 'name', 'photo', 'price', 'sale_price', 'onsale'])
-                            ->whereIn('id', $data['products'])
-                            ->get();
-        $billetModels = Product::select(['id', 'name', 'photo', 'price', 'sale_price', 'onsale'])
-                            ->whereIn('id', $data['products'])
-                            ->get();
-        if ($data['coupon_id']) {
-            $coupon = Coupon::findOrFail($data['coupon_id']);
-        }
+        $products = $this->getProductArrToAttach($data['products']);
+        $billets = $this->getBilletArrToAttach($data['billets']);
 
-        $products = [];
-        foreach ($data['products'] as $key => $productId) {
-            $product = $productModels->find($productId);
+        $cost = $this->getCost($products);
+        $costDiscount = $this->getCostDiscount($products);
 
-            $productQuantity = $data['products_quantity'][$key];
-            $amount = ($product->onsale)
-                        ? $product->sale_price * $productQuantity
-                        : $product->price * $productQuantity;
-            $products[$productId] = [
-                'name' => $product->name,
-                'photo' => $product->photo,
-                'price' => $product->price,
-                'sale_price' => $product->sale_price,
-                'onsale' => $product->onsale,
-                'quantity' => $productQuantity,
-                'amount' => $amount,
-            ];
-        }
+        $couponDiscount = ($data['coupon'])
+                            ? $this->getCouponDiscount($data['coupon'], $cost - $costDiscount)
+                            : 0;
 
-        $billets = [];
-        foreach ($data['billets'] as $key => $billetId) {
-            $billet = $billetModels->find($billetId);
-
-            $billetQuantity = $data['billets_quantity'][$key];
-            $amount = ($billet->onsale)
-                        ? $billet->sale_price * $billetQuantity
-                        : $billet->price * $billetQuantity;
-            $billets[$billetId] = [
-                'name' => $billet->name,
-                'photo' => $billet->photo,
-                'price' => $billet->price,
-                'onsale' => $billet->onsale,
-                'quantity' => $billetQuantity,
-                'amount' => $amount,
-            ];
-        }
-
-        $cost = array_reduce($products, function($carry, $item) {
-            $carry += $item['price'] * $item['quantity'];
-            return  $carry;
-        }, 0);
-
-        $costDiscount = array_reduce($products, function($carry, $item) {
-            if ($item['onsale']) {
-                $carry += ($item['price'] - $item['sale_price']) * $item['quantity'];
-            }
-            return  $carry;
-        }, 0);
-        $costRemainder = $cost - $costDiscount;
-
-        if ( isset($coupon) && Carbon::createFromTimestamp($coupon->expires_at)->isPast() ) {
-            if ($coupon->type === 'percent') {
-                $couponDiscount = ($costRemainder) * ((double) $coupon->discount_size / 100);
-            } else {
-                $couponDiscount = ( $coupon->discount_size >= ($costRemainder) )
-                                    ? $costRemainder
-                                    : $coupon->discount_size;
-            }
-        } else {
-            $couponDiscount = 0;
-        }
-
-        $discountAmount = $costDiscount + $couponDiscount;
-        $totalAmount = $cost - $discountAmount + $data['shipping_amount'] + $data['gratuity_amount'];
+        $totalAmount = $this->getTotalAmount([
+            'cost' => $cost,
+            'costDiscount' => $costDiscount,
+            'couponDiscount' => $couponDiscount,
+            'shippingAmount' => $data['shipping_amount'],
+            'gratuityAmount' => $data['gratuity_amount'],
+        ]);
 
         $order = Order::create([
             ...$data,
             'price_amount' => $cost,
             'price_discount' => $costDiscount,
-            'discount_amount' => $discountAmount,
+            'discount_amount' => $costDiscount + $couponDiscount,
             'amount' => $totalAmount,
             'user_id' => $request->user()->id,
         ]);
@@ -103,16 +46,106 @@ class StoreService extends Controller {
             $order->save();
         }
 
-        return $order->load([
-                    'status',
-                    'paymentStatus',
-                    'coupon',
-                    'paymentMethod',
-                    'shippingMethod',
-                    'customer',
-                    'products',
-                    'billets',
-                    'source'
-                ]);
+        return $order->load([ 'status', 'paymentStatus', 'coupon', 'paymentMethod', 'shippingMethod', 'customer', 'products', 'billets', 'source' ]);
+    }
+
+    private function getProductArrToAttach(array $data): array
+    {
+        $ids = array_map( function($item) {
+            return $item['id'];
+        }, $data);
+
+        $products = Product::whereIn('id', $ids)->get();
+
+        $arrayToAttach = [];
+        foreach ($data as $item) {
+            $id = $item['id'];
+            $product = $products->find($id);
+            $productQtty = $item['quantity'];
+
+            $amount = ($product->onsale)
+                            ? $product->sale_price * $productQtty
+                            : $product->price * $productQtty;
+
+            $arrayToAttach[$id] = [
+                'name' => $product->name,
+                'photo' => $product->photo,
+                'price' => $product->price,
+                'sale_price' => $product->sale_price,
+                'onsale' => $product->onsale,
+                'quantity' => $productQtty,
+                'amount' => $amount,
+            ];
+        }
+
+        return $arrayToAttach;
+    }
+
+    private function getBilletArrToAttach(array $data): array
+    {
+        $ids = array_map( function($item) {
+            return $item['id'];
+        }, $data);
+
+        $billets = Billet::whereIn('id', $ids)->get();
+
+        $arrayToAttach = [];
+        foreach ($data as $item) {
+            $id = $item['id'];
+            $billet = $billets->find($id);
+            $qtty = $item['quantity'];
+
+            $arrayToAttach[$id] = [
+                'name' => $billet->name,
+                'photo' => $billet->photo,
+                'price' => $billet->price,
+                'onsale' => $billet->onsale,
+                'quantity' => $qtty,
+                'amount' => $billet->price * $qtty,
+            ];
+        }
+
+        return $arrayToAttach;
+    }
+
+    private function getCouponDiscount(string $promocode, float $cost) {
+        $coupon = Coupon::where('promocode', $promocode)->first();
+
+        if ( $coupon->expires_at->isPast() ) {
+            Throw new \Exception('Купон недействителен');
+        }
+
+        if ($coupon->type === 'percent') {
+            return ($cost) * ((double) $coupon->discount_size / 100);
+        } else {
+            return ($coupon->discount_size < ($cost))
+                        ? $coupon->discount_size
+                        : $cost;
+        }
+    }
+
+    private function getCost(array $products) {
+        return array_reduce($products, function($carry, $item) {
+            $carry += $item['price'] * $item['quantity'];
+            return  $carry;
+        }, 0);
+    }
+
+    private function getCostDiscount(array $products) {
+        return array_reduce($products, function($carry, $item) {
+            if ($item['onsale']) {
+                $carry += ($item['price'] - $item['sale_price']) * $item['quantity'];
+            }
+            return  $carry;
+        }, 0);
+    }
+
+    private function getTotalAmount(array $data) {
+        return ($data['cost'] + $data['shippingAmount'] + $data['gratuityAmount']) - ($data['costDiscount'] + $data['couponDiscount']);
+    }
+
+    private function calculateOrderAmount(): int
+    {
+        return 0;
     }
 }
