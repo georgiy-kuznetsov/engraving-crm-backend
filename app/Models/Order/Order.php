@@ -19,13 +19,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasApiTokens, SoftDeletes;
 
     protected $table = 'orders';
-    
+
     protected $fillable = [
         'number',
         'price_amount',
@@ -47,9 +48,15 @@ class Order extends Model
 
     protected $hidden = [
         'status_id',
+        'source_id',
         'coupon_id',
+        'gift_certificate_id',
+        'user_id',
+        'customer_id',
         'shipping_method_id',
         'payment_method_id',
+        'payment_status_id',
+        'deleted_at',
     ];
 
     protected $guarded = [
