@@ -19,6 +19,10 @@ class Receipts extends Model
         'order_id'
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);

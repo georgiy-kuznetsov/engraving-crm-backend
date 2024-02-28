@@ -20,6 +20,10 @@ class ShippingMethod extends Model
         'index',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

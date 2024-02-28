@@ -25,7 +25,7 @@ class Customer extends Model
         'city',
         'address',
         'postcode',
-        'website', 
+        'website',
         'telegram',
         'vkontakte',
         'instagram',
@@ -39,6 +39,16 @@ class Customer extends Model
         'is_baned',
         'is_regular',
         'user_id',
+    ];
+
+    protected $hidden = [
+        'user_id',
+        'deleted_at',
+    ];
+
+    protected $casts = [
+        'is_baned' => 'boolean',
+        'is_regular' => 'boolean',
     ];
 
     public function user(): BelongsTo

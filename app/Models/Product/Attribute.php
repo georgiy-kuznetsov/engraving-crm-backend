@@ -15,8 +15,12 @@ class Attribute extends Model
     protected $table = 'attributes';
 
     protected $fillable = [
-        'name', 
+        'name',
         'unit',
+    ];
+
+    protected $hidden = [
+        'deleted_at',
     ];
 
     public function products(): BelongsToMany

@@ -19,6 +19,10 @@ class OrderStatus extends Model
         'index',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function orders()
     {
         return $this->hasMany(Order::class);

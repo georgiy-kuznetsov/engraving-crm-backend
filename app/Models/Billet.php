@@ -27,7 +27,9 @@ class Billet extends Model
     ];
 
     protected $hidden = [
+        'user_id',
         'provider_id',
+        'deleted_at',
     ];
 
     protected $guarded = [

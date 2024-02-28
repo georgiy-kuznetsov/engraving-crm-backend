@@ -18,11 +18,15 @@ class Coupon extends Model
         'promocode',
         'discount_size',
         'type',
-        'user_id',
         'expires_at',
+        'user_id',
     ];
 
     protected $guarded = [
+        'user_id',
+    ];
+
+    protected $hidden = [
         'user_id',
     ];
 

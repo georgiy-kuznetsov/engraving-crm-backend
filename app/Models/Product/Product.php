@@ -32,10 +32,14 @@ class Product extends Model
         'user_id',
         'category_id',
     ];
-    
+
     protected $guarded = [
         'user_id',
         'photo',
+    ];
+
+    protected $hidden = [
+        'deleted_at',
     ];
 
     public function user(): BelongsTo

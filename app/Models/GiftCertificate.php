@@ -17,16 +17,20 @@ class GiftCertificate extends Model
 
     protected $fillable = [
         'number',
-        'balance', 
+        'balance',
         'is_used_up',
         'expires_at',
         'user_id',
-        'expires_at',
     ];
 
     protected $hidden = [
         'deleted_at',
         'user_id',
+    ];
+
+    protected $casts = [
+        'expires_at' => 'datetime',
+        'is_used_up' => 'boolean',
     ];
 
     public function getNumber(): string

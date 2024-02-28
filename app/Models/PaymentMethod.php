@@ -12,12 +12,16 @@ class PaymentMethod extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'payment_methods';   
+    protected $table = 'payment_methods';
 
     protected $fillable = [
         'name',
         'description',
         'index',
+    ];
+
+    protected $hidden = [
+        'deleted_at',
     ];
 
     public function orders(): HasMany

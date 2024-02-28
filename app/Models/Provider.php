@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,10 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Provider extends Model
 {
-    use SoftDeletes;
-    
+    use HasFactory, SoftDeletes;
+
     protected $table = 'providers';
-    
+
     protected $fillable = [
         'name',
         'phone',
@@ -36,6 +37,10 @@ class Provider extends Model
         'user_id',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -43,6 +48,6 @@ class Provider extends Model
 
     public function billets(): hasMany
     {
-        return $this->hasMany(Billet::class); 
+        return $this->hasMany(Billet::class);
     }
 }
