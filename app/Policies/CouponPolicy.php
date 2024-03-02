@@ -8,12 +8,12 @@ use Illuminate\Auth\Access\Response;
 
 class CouponPolicy
 {
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return true;
     }
 
-    public function view(User $user, Coupon $coupon): bool
+    public function view(): bool
     {
         return true;
     }
