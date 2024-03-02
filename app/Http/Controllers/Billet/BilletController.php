@@ -20,13 +20,11 @@ class BilletController extends Controller
 
     public function index(IndexRequest $request)
     {
-        $this->authorize('viewAny', Billet::class);
         return $this->service->index( $request->validated() );
     }
 
     public function store(StoreRequest $request)
     {
-        $this->authorize('create', Billet::class);
         return $this->service->store($request, $request->validated());
     }
 
@@ -38,7 +36,6 @@ class BilletController extends Controller
 
     public function update(UpdateRequest $request, Billet $billet)
     {
-        $this->authorize('update', $billet);
         return $this->service->update($request->validated(), $billet);
     }
 

@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Billet;
 
+use App\Models\Billet;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('update', $this->route('billet'));
     }
 
     public function rules(): array
