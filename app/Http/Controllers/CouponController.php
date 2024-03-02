@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CouponRequest;
+use App\Http\Requests\Coupon\StoreRequest;
 use App\Models\Coupon;
 use App\Services\CouponService;
 
@@ -22,9 +22,8 @@ class CouponController extends Controller
         return Coupon::all();
     }
 
-    public function store(CouponRequest $request)
+    public function store(StoreRequest $request)
     {
-        $this->authorize('create', Coupon::class);
         return $this->service->store( $request, $request->validated() );
     }
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Coupon;
 
 use App\Models\Coupon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CouponRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', Coupon::class);
     }
 
     public function rules(): array
