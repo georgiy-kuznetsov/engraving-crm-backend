@@ -22,7 +22,6 @@ class GiftCertificateController extends Controller
 
     public function store(GiftCertificateRequest $request)
     {
-        $this->authorize('create', GiftCertificate::class);
         return $this->service->store( $request, $request->validated() );
     }
 

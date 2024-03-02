@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\GiftCertificate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GiftCertificateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', GiftCertificate::class);
     }
 
     public function rules(): array
