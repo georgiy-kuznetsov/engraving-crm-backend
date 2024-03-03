@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\OrderStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderStatusRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->authorize('create', OrderStatus::class);
     }
 
     public function rules(): array

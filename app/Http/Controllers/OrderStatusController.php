@@ -15,7 +15,6 @@ class OrderStatusController extends Controller
 
     public function store(OrderStatusRequest $request)
     {
-        $this->authorize('create', OrderStatus::class);
         return OrderStatus::create(  $request->validated());
     }
 
