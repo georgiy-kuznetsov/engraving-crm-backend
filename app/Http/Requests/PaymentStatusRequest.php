@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PaymentStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PaymentStatusRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->authorize('create', PaymentStatus::class);
     }
 
     public function rules(): array

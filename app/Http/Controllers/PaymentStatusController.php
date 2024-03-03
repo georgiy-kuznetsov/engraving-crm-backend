@@ -16,7 +16,6 @@ class PaymentStatusController extends Controller
 
     public function store(PaymentStatusRequest $request)
     {
-        $this->authorize('create', PaymentStatus::class);
         return PaymentStatus::create( $request->validated() );
     }
 
