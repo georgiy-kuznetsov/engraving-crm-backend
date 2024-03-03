@@ -16,7 +16,6 @@ class OrderSourceController extends Controller
 
     public function store(OrderSourceRequest $request)
     {
-        $this->authorize('create', OrderSource::class);
         return OrderSource::create( $request->validated() );
     }
 
