@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PaymentMethod;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PaymentMethodRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->authorize('create', PaymentMethod::class);
     }
 
     public function rules(): array

@@ -16,7 +16,6 @@ class PaymentMethodController extends Controller
 
     public function store(PaymentMethodRequest $request)
     {
-        $this->authorize('create', PaymentMethod::class);
         return PaymentMethod::create( $request->validated() );
     }
 
